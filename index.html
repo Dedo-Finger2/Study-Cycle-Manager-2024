@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="app/css/temp.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <!-- Navbar -->
+        <nav>
+            <!-- Nav itens -->
+            <a href="index.html">Home</a> -
+            <a href="study-cycle.html">My Study Cycle</a>
+        </nav>
+        <hr>
+    </header>
+
+    <!-- Main -->
+    <main id="main-container">
+
+        <dialog id="error-modal">
+            <h1>ERROR!</h1>
+            <p id="error-modal-message"></p>
+            <button id="close" onclick="document.getElementById('error-modal').close()">Close</button>
+        </dialog>
+
+        <!-- Hero -->
+        <section id="hero-container">
+            <h1>Study Cycle - Project</h1>
+            <p>Note que o peso vai de 1 até 5.</p>
+
+            <!-- Study Cycle create btn -->
+            <button id="init-study-cycle-creation-btn">Create</button>
+
+            <!-- Study Cycle config -->
+            <section id="config-study-cycle-container">
+                <br>
+                <!-- Config Form -->
+                <form id="config-study-cycle-form">
+                    <div>
+                        <label for="studying-max-hours">Max hours of studying</label>
+                        <input type="number" id="studying-max-hours" required placeholder="Horas Maximas">
+                    </div>
+                    <br>
+                    <div>
+                        <label for="weekly-study-hours">Weekly study hours</label>
+                        <input type="number" disabled id="weekly-study-hours">
+
+                        <label for="multiplier">Multiplier</label>
+                        <input type="number" disabled id="multiplier">
+                    </div>
+                    <br>
+                </form>
+                <br>
+            </section>
+
+            <!-- Study Cycle creation -->
+            <section id="create-study-cycle-container" class="hidden">
+                <!-- Creating Form -->
+                <form id="create-study-cycle-form">
+                    <button type="submit" id="submit-study-cycle-btn">Create Cycle</button>
+                    <button type="button" id="add-new-subject-btn">Add Subject</button>
+
+                    <div id="subjects">
+                        <br>
+                        <div class="subject-container">
+                            <div>
+                                <label for="subject-name-0">Name</label>
+                                <input type="text" id="subject-name-0" required placeholder="Nome da Materia">
+
+                            </div>
+
+                            <div>
+                                <label for="subject-weight-0">Weight</label>
+                                <input type="number" step="1" min="1" required max="5" id="subject-weight-0"
+                                    placeholder="Peso">
+                            </div>
+                            <br>
+                        </div>
+                    </div>
+
+                </form>
+            </section>
+
+            <br>
+
+            <!-- Study Cycle show (only if one exists) -->
+            <section id="my-study-cycle-container">
+                <a href="study-cycle.html" id="my-study-cycle-link" class="hidden">Meu Ciclo de Estudo</a>
+                <span id="no-study-cycle-msg">You have no study cycle created yet.</span>
+            </section>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer></footer>
+    <script type="module" src="app/main.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const studyCycle = localStorage.getItem("myStudyCycle");
+            const studyCycleConfig = localStorage.getItem("myStudyCycleUserConfig");
+
+            const myStudyCycleLink = document.getElementById("my-study-cycle-link");
+            const noStudyCycleMsg = document.getElementById("no-study-cycle-msg");
+            const initStudyCycleCreationBtn = document.getElementById("init-study-cycle-creation-btn");
+
+            const studyingMaxHoursInput = document.getElementById("studying-max-hours");
+            const weeklyStudyHoursInput = document.getElementById("weekly-study-hours");
+            const multiplierInput = document.getElementById("multiplier");
+
+            if (studyCycle && studyCycleConfig) {
+                initStudyCycleCreationBtn.disabled = true;
+                studyingMaxHoursInput.disabled = true;
+
+                const studyCycleConfigOjb = JSON.parse(studyCycleConfig);
+
+                studyingMaxHoursInput.value = studyCycleConfigOjb.userMaxHours;
+                weeklyStudyHoursInput.value = studyCycleConfigOjb.weeklyStudyHours;
+                multiplierInput.value = studyCycleConfigOjb.multiplier;
+
+                myStudyCycleLink.classList.remove("hidden");
+                noStudyCycleMsg.classList.add("hidden");
+            }
+
+        })
+    </script>
+</body>
+
+</html>

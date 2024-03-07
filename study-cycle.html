@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Study Cycle</title>
+    <link rel="stylesheet" href="app/css/temp.css">
+</head>
+
+<body>
+
+    <body>
+        <!-- Header -->
+        <header>
+            <!-- Navbar -->
+            <nav>
+                <!-- Nav itens -->
+                <a href="index.html">Home</a> -
+                <a href="study-cycle.html">My Study Cycle</a>
+            </nav>
+            <hr>
+        </header>
+
+        <!-- Main -->
+        <main id="main-container">
+            <h1>My Study Cycle</h1>
+
+
+            <div id="container">
+                <button type="button" class="hidden"
+                    onclick="document.getElementById('confirm-study-cycle-delete-modal').showModal()"
+                    id="open-delete-study-cycle-modal">Delete
+                    Study Cycle</button>
+
+            </div>
+
+            <dialog id="confirm-study-cycle-delete-modal">
+                <h1>Are you sure?!</h1>
+                <p>You sure you want to DELETE this study cycle?</p>
+                <button type="button" id="confirm-delete-study-cycle">Delete</button>
+                <button id="close"
+                    onclick="document.getElementById('confirm-study-cycle-delete-modal').close()">Close</button>
+            </dialog>
+
+            <span id="no-study-cycle-msg">You don't have a study cycle created yet.</span>
+
+            <span id="completed-all-subjects-msg" class="hidden">Congratulations! You've completed this cycle. Wait
+                'till next week to
+                restart!</span>
+        </main>
+
+        <!-- Footer -->
+        <footer></footer>
+
+        <script src="app/main2.js"></script>
+
+        <script>
+
+        </script>
+    </body>
+</body>
+
+</html>
