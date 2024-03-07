@@ -21,6 +21,8 @@ const subjectsContainer = document.getElementById("subjects");
 const errorModal = document.getElementById("error-modal");
 const modalErrorMessage = document.getElementById("error-modal-message");
 
+const removeSubjectBtn = document.getElementsByClassName("remove-subject-btn");
+
 let totalWeights = 0;
 let currentId = 0;
 
@@ -28,7 +30,7 @@ addNewSubjectBtn.addEventListener("click", () => {
   currentId++;
 
   const newSubjectContainer = document.createElement("div");
-  newSubjectContainer.classList.add("subject-container");
+  newSubjectContainer.classList.add(`subject-container-${currentId}`);
 
   const subjectNameContainer = document.createElement("div");
 
@@ -58,6 +60,12 @@ addNewSubjectBtn.addEventListener("click", () => {
 
   const br = document.createElement("br");
 
+  const removeSubjectBtn = document.createElement("button");
+  removeSubjectBtn.type = "button";
+  removeSubjectBtn.textContent = "Remove";
+  removeSubjectBtn.classList.add("remove-subject-btn");
+  removeSubjectBtn.dataset.subjectContainerId = currentId;
+
   subjectNameContainer.appendChild(subjectNameLabel);
   subjectNameContainer.appendChild(subjectNameInput);
 
@@ -66,6 +74,8 @@ addNewSubjectBtn.addEventListener("click", () => {
 
   newSubjectContainer.appendChild(subjectNameContainer);
   newSubjectContainer.appendChild(subjectWeightContainer);
+
+  newSubjectContainer.appendChild(removeSubjectBtn);
 
   newSubjectContainer.appendChild(br);
 
@@ -88,6 +98,17 @@ createStudyCycleForm.addEventListener("submit", (event) => {
   event.preventDefault();
 
   handleStudyCycleCreation();
+});
+
+document.addEventListener("click", (event) => {
+  if (event.target.classList.contains("remove-subject-btn")) {
+    event.preventDefault();
+
+    const subjectContainerId = event.target.dataset.subjectContainerId;
+
+    const elementToRemove = event.target.parentNode;
+    subjectsContainer.removeChild(elementToRemove);
+  }
 });
 
 function getMultiplier() {
@@ -189,4 +210,8 @@ function saveStudyCycleConfig() {
   } else {
     alert("Please enter a valid number of hours first!");
   }
+}
+
+function removeSubject(subjectContainerId) {
+  console.log(subjectContainerId);
 }
