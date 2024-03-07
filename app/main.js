@@ -21,7 +21,13 @@ const subjectsContainer = document.getElementById("subjects");
 const errorModal = document.getElementById("error-modal");
 const modalErrorMessage = document.getElementById("error-modal-message");
 
+const successModal = document.getElementById("success-modal");
+const modalSuccessMessage = document.getElementById("success-modal-message");
+
 const removeSubjectBtn = document.getElementsByClassName("remove-subject-btn");
+
+const myStudyCycleLink = document.getElementById("my-study-cycle-link");
+const noStudyCycleMsg = document.getElementById("no-study-cycle-msg");
 
 let totalWeights = 0;
 let currentId = 0;
@@ -133,7 +139,8 @@ function handleStudyCycleCreation() {
     totalWeights += Number(weightInput.value);
   });
 
-  alert("Study Cycle Created!");
+  modalSuccessMessage.textContent = "Study cycle created successfully!";
+  successModal.showModal();
 
   studyCycleCreateContainer.classList.toggle("hidden");
 
@@ -148,6 +155,9 @@ function handleStudyCycleCreation() {
   currentId = 0;
 
   saveStudyCycleConfig();
+
+  myStudyCycleLink.classList.remove("hidden");
+  noStudyCycleMsg.classList.add("hidden");
 }
 
 function createObj(nameInputs, weightInputs) {

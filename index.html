@@ -29,6 +29,12 @@
             <button id="close" onclick="document.getElementById('error-modal').close()">Close</button>
         </dialog>
 
+        <dialog id="success-modal">
+            <h1>SUCCESS!</h1>
+            <p id="success-modal-message"></p>
+            <button id="close" onclick="document.getElementById('success-modal').close()">Close</button>
+        </dialog>
+
         <!-- Hero -->
         <section id="hero-container">
             <h1>Study Cycle - Project</h1>
@@ -109,6 +115,7 @@
 
             const myStudyCycleLink = document.getElementById("my-study-cycle-link");
             const noStudyCycleMsg = document.getElementById("no-study-cycle-msg");
+            
             const initStudyCycleCreationBtn = document.getElementById("init-study-cycle-creation-btn");
 
             const studyingMaxHoursInput = document.getElementById("studying-max-hours");
