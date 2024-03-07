@@ -2,6 +2,10 @@ const initCreateStudyCycleBtn = document.getElementById(
   "init-study-cycle-creation-btn"
 );
 
+const cancelCreateStudyCycleBtn = document.getElementById(
+  "cancel-study-cycle-creation-btn"
+);
+
 const studyCycleCreateContainer = document.getElementById(
   "create-study-cycle-container"
 );
@@ -98,12 +102,20 @@ initCreateStudyCycleBtn.addEventListener("click", () => {
   }
 
   studyCycleCreateContainer.classList.toggle("hidden");
+  cancelCreateStudyCycleBtn.classList.toggle("hidden");
+  initCreateStudyCycleBtn.classList.toggle("hidden");
 });
 
 createStudyCycleForm.addEventListener("submit", (event) => {
   event.preventDefault();
 
   handleStudyCycleCreation();
+});
+
+cancelCreateStudyCycleBtn.addEventListener("click", () => {
+  studyCycleCreateContainer.classList.toggle("hidden");
+  cancelCreateStudyCycleBtn.classList.toggle("hidden");
+  initCreateStudyCycleBtn.classList.toggle("hidden");
 });
 
 document.addEventListener("click", (event) => {
