@@ -1,3 +1,5 @@
+import { Subject } from "./class/Subject.class.js";
+
 // [ BOTÕES ] \\
 
 // Botão que inicia a criação dos ciclos de estudo
@@ -28,7 +30,7 @@ const studyCycleCreateContainer = document.getElementById(
 // [ INPUTS ] \\
 
 // Input de quantas horas o usuário estuda por dia
-const userMaxHours = document.getElementById("studying-max-hours");
+const userDiaryStudyingHoursInput = document.getElementById("studying-max-hours");
 
 // Input de quantas horas o usuário estuda por semana
 const weeklyStudyHoursInput = document.getElementById("weekly-study-hours");
@@ -65,83 +67,19 @@ const noStudyCycleMsg = document.getElementById("no-study-cycle-msg");
 
 // Soma total dos pesos
 let totalWeights = 0;
-// ID atual (usado para criar novas matérias)
-let currentId = 0;
 
 // [ EVENTOS ] \\
 
 // Adicionar uma nova matéria
 addNewSubjectBtn.addEventListener("click", () => {
-  currentId++; // Adiciona 1 ao ID
-
-  // Container da materia nova
-  const newSubjectContainer = document.createElement("div");
-  newSubjectContainer.classList.add(`subject-container-${currentId}`);
-
-  // Container do nome da matéria
-  const subjectNameContainer = document.createElement("div");
-  // Label do nome da matéria
-  const subjectNameLabel = document.createElement("label");
-  subjectNameLabel.for = `subject-name-${currentId}`;
-  subjectNameLabel.textContent = "Name";
-  // Input do nome da matéria
-  const subjectNameInput = document.createElement("input");
-  subjectNameInput.type = "text";
-  subjectNameInput.required = true;
-  subjectNameInput.id = `subject-name-${currentId}`;
-  subjectNameInput.placeholder = "Nome da Materia";
-
-  // Container do peso da matéria
-  const subjectWeightContainer = document.createElement("div");
-  // Label do peso da matéria
-  const subjectWeightLabel = document.createElement("label");
-  subjectWeightLabel.for = `subject-weight-${currentId}`;
-  subjectWeightLabel.textContent = "Weight";
-  // Input do peso da matéria
-  const subjectWeightInput = document.createElement("input");
-  subjectWeightInput.type = "number";
-  subjectWeightInput.required = true;
-  subjectWeightInput.id = `subject-weight-${currentId}`;
-  subjectWeightInput.min = "1";
-  subjectWeightInput.max = "5";
-  subjectWeightInput.placeholder = "Peso";
-
-  // Br para separar as matérias entre si
-  const br = document.createElement("br");
-
-  // Botão para remover a matéria
-  const removeSubjectBtn = document.createElement("button");
-  removeSubjectBtn.type = "button";
-  removeSubjectBtn.textContent = "Remove";
-  removeSubjectBtn.classList.add("remove-subject-btn");
-  removeSubjectBtn.dataset.subjectContainerId = currentId;
-
-  // Adiciona o label e input de nome no container de nome da matéria
-  subjectNameContainer.appendChild(subjectNameLabel);
-  subjectNameContainer.appendChild(subjectNameInput);
-
-  // Adiciona o label e input de peso no container de peso da matéria
-  subjectWeightContainer.appendChild(subjectWeightLabel);
-  subjectWeightContainer.appendChild(subjectWeightInput);
-
-  // Adiciona o container de nome e peso no container principal da matéria
-  newSubjectContainer.appendChild(subjectNameContainer);
-  newSubjectContainer.appendChild(subjectWeightContainer);
-
-  // Adiciona o botão para remover a matéria no container principal da matéria
-  newSubjectContainer.appendChild(removeSubjectBtn);
-
-  // Adiciona o br para separar as matérias no container principal da matéria
-  newSubjectContainer.appendChild(br);
-
-  // Adiciona o container da matéria no container que engloba todas as matérias
-  subjectsContainer.appendChild(newSubjectContainer);
+  const newSubject = new Subject();
+  newSubject.addNewSubject(subjectsContainer);
 });
 
 // Iniciar criação de um ciclo de estudos
 initCreateStudyCycleBtn.addEventListener("click", () => {
   // Se o campo de horas estudadas diariamente estiver vazio, mostra o modal de erro
-  if (userMaxHours.value === "") {
+  if (userDiaryStudyingHoursInput.value === "") {
     modalErrorMessage.textContent =
       "Provide an hour value for the max hours of studying!";
 
@@ -160,7 +98,7 @@ initCreateStudyCycleBtn.addEventListener("click", () => {
   initCreateStudyCycleBtn.classList.toggle("hidden");
 
   // Desativa o input para impedir edição da configuração durante a criação de um ciclo de estudos
-  userMaxHours.disabled = true;
+  userDiaryStudyingHoursInput.disabled = true;
 });
 
 // Criar um ciclo de estudos (POST)
@@ -183,21 +121,11 @@ cancelCreateStudyCycleBtn.addEventListener("click", () => {
   initCreateStudyCycleBtn.classList.toggle("hidden");
 
   // Ativa o input de configuração de horas de estudo diário
-  userMaxHours.disabled = false;
+  userDiaryStudyingHoursInput.disabled = false;
 });
 
 // Trata a deleção de uma matéria criada pelo usuário
-document.addEventListener("click", (event) => {
-  if (event.target.classList.contains("remove-subject-btn")) {
-    event.preventDefault(); // Previne o envio do formulário
-
-    // Seleciona o elemento a ser deletado (o container da matéria)
-    const elementToRemove = event.target.parentNode;
-
-    // Deleta o container do container de matérias
-    subjectsContainer.removeChild(elementToRemove);
-  }
-});
+document.addEventListener("click", Subject.removeSubject);
 
 // [ FUNÇÕES ] \\
 
@@ -208,11 +136,11 @@ document.addEventListener("click", (event) => {
  * @return {number} O resultado
  */
 function getMultiplier() {
-  multiplierInput.value = (Number(userMaxHours.value) / totalWeights).toFixed(
+  multiplierInput.value = (Number(userDiaryStudyingHoursInput.value) / totalWeights).toFixed(
     2
   );
 
-  return (Number(userMaxHours.value) / totalWeights).toFixed(2);
+  return (Number(userDiaryStudyingHoursInput.value) / totalWeights).toFixed(2);
 }
 
 /**
@@ -222,9 +150,9 @@ function getMultiplier() {
  * @return {number} O resultado
  */
 function getWeeklyStudyHours() {
-  weeklyStudyHoursInput.value = Number(userMaxHours.value) * 7;
+  weeklyStudyHoursInput.value = Number(userDiaryStudyingHoursInput.value) * 7;
 
-  return userMaxHours * 7;
+  return userDiaryStudyingHoursInput * 7;
 }
 
 /**
@@ -251,7 +179,7 @@ function handleStudyCycleCreation() {
   // Desabilita o botão de criação de ciclo de estudos
   initCreateStudyCycleBtn.disabled = true;
   // Desabilita o input de configuração de horas de estudo diário
-  userMaxHours.disabled = true;
+  userDiaryStudyingHoursInput.disabled = true;
 
   // Seta o valor do input de multiplicador para o multiplicador encontrado
   getMultiplier();
@@ -337,7 +265,7 @@ function getSubjectHours(subjectWeight) {
 function saveStudyCycleConfig() {
   // Cria um objeto contendo os dados de configuração do ciclo de estudo
   const studyCycleUserConfig = {
-    userMaxHours: Number(userMaxHours.value),
+    userMaxHours: Number(userDiaryStudyingHoursInput.value),
     weeklyStudyHours: Number(weeklyStudyHoursInput.value),
     multiplier: Number(multiplierInput.value),
   };
