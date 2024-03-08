@@ -4,7 +4,7 @@
 - [X] Implementar exportação como JSON ou CSV
 - [ ] Fazer mais validações
   - [X] Não deve ser possível criar um ciclo de estudos se já existir um no localStorage
-- [ ] Documentar o código
-- [ ] Criar layout no Figma
+- [X] Documentar o código
+- [X] Criar layout no Figma
   - [ ] Estilizar com Tailwind
 - [x] Criar modal de sucesso e outros modais de erro
