@@ -9,26 +9,17 @@
 </head>
 
 <body>
-    <!-- Header -->
-    <header>
-        <!-- Navbar -->
-        <nav>
-            <!-- Nav itens -->
-            <a href="index.html">Home</a> -
-            <a href="study-cycle.html">My Study Cycle</a>
-        </nav>
-        <hr>
-    </header>
-
     <!-- Main -->
     <main id="main-container">
 
+        <!-- Modal de erros -->
         <dialog id="error-modal">
             <h1>ERROR!</h1>
             <p id="error-modal-message"></p>
             <button id="close" onclick="document.getElementById('error-modal').close()">Close</button>
         </dialog>
 
+        <!-- Modal de sucesso -->
         <dialog id="success-modal">
             <h1>SUCCESS!</h1>
             <p id="success-modal-message"></p>
@@ -37,6 +28,7 @@
 
         <!-- Hero -->
         <section id="hero-container">
+            <!-- Título -->
             <h1>Study Cycle - Project</h1>
             <p>Note que o peso vai de 1 até 5.</p>
 
@@ -74,6 +66,7 @@
                     <button type="submit" id="submit-study-cycle-btn">Create Cycle</button>
                     <button type="button" id="add-new-subject-btn">Add Subject</button>
 
+                    <!-- Subject Containers -->
                     <div id="subjects">
                         <br>
                         <div class="subject-container-0">
@@ -91,7 +84,6 @@
                             <br>
                         </div>
                     </div>
-
                 </form>
             </section>
 
@@ -107,6 +99,8 @@
 
     <!-- Footer -->
     <footer></footer>
+
+    <!-- Main script for the page -->
     <script type="module" src="app/main.js"></script>
 
     <script>

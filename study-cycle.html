@@ -11,31 +11,22 @@
 <body>
 
     <body>
-        <!-- Header -->
-        <header>
-            <!-- Navbar -->
-            <nav>
-                <!-- Nav itens -->
-                <a href="index.html">Home</a> -
-                <a href="study-cycle.html">My Study Cycle</a>
-            </nav>
-            <hr>
-        </header>
-
         <!-- Main -->
         <main id="main-container">
+            <!-- Título -->
+            <a href="index.html">Back to home</a>
             <h1>My Study Cycle</h1>
 
-
-            <div id="container">
+            <!-- Botões de controle do topo -->
+            <div id="study-cycle-info">
                 <button type="button" class="hidden"
                     onclick="document.getElementById('confirm-study-cycle-delete-modal').showModal()"
                     id="open-delete-study-cycle-modal">Delete
                     Study Cycle</button>
                 <button type="button" class="hidden" id="export-as-csv-btn">Export as JSON</button>
-
             </div>
 
+            <!-- Modal de confirmação de deleção de study cycle -->
             <dialog id="confirm-study-cycle-delete-modal">
                 <h1>Are you sure?!</h1>
                 <p>You sure you want to DELETE this study cycle?</p>
@@ -44,8 +35,10 @@
                     onclick="document.getElementById('confirm-study-cycle-delete-modal').close()">Close</button>
             </dialog>
 
+            <!-- Mensagem caso o usuário não tenha um study cycle -->
             <span id="no-study-cycle-msg">You don't have a study cycle created yet.</span>
 
+            <!-- Mensagem caso o usuário tenha concluído todos as materias -->
             <span id="completed-all-subjects-msg" class="hidden">Congratulations! You've completed this cycle. Wait
                 'till next week to
                 restart!</span>
@@ -54,12 +47,11 @@
         <!-- Footer -->
         <footer></footer>
 
+        <!-- Biblioteca de download de arquivos -->
         <script src="https://unpkg.com/file-saver/dist/FileSaver.min.js"></script>
+
+        <!-- Main script dessa página -->
         <script src="app/main2.js"></script>
-
-        <script>
-
-        </script>
     </body>
 </body>
 
