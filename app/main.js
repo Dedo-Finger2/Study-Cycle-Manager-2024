@@ -1,4 +1,5 @@
 import { Subject } from "./class/Subject.class.js";
+import { StudyCycle } from "./class/StudyCycle.class.js";
 
 // [ BOTÕES ] \\
 
@@ -30,7 +31,8 @@ const studyCycleCreateContainer = document.getElementById(
 // [ INPUTS ] \\
 
 // Input de quantas horas o usuário estuda por dia
-const userDiaryStudyingHoursInput = document.getElementById("studying-max-hours");
+const userDiaryStudyingHoursInput =
+  document.getElementById("studying-max-hours");
 
 // Input de quantas horas o usuário estuda por semana
 const weeklyStudyHoursInput = document.getElementById("weekly-study-hours");
@@ -77,29 +79,7 @@ addNewSubjectBtn.addEventListener("click", () => {
 });
 
 // Iniciar criação de um ciclo de estudos
-initCreateStudyCycleBtn.addEventListener("click", () => {
-  // Se o campo de horas estudadas diariamente estiver vazio, mostra o modal de erro
-  if (userDiaryStudyingHoursInput.value === "") {
-    modalErrorMessage.textContent =
-      "Provide an hour value for the max hours of studying!";
-
-    errorModal.showModal();
-
-    return;
-  }
-
-  // Mostra o container de criação de ciclos de estudos
-  studyCycleCreateContainer.classList.toggle("hidden");
-
-  // Mostra o botão de cancelar a criação do ciclo de estudos
-  cancelCreateStudyCycleBtn.classList.toggle("hidden");
-
-  // Esconde o botão de criação de ciclos de estudos
-  initCreateStudyCycleBtn.classList.toggle("hidden");
-
-  // Desativa o input para impedir edição da configuração durante a criação de um ciclo de estudos
-  userDiaryStudyingHoursInput.disabled = true;
-});
+initCreateStudyCycleBtn.addEventListener("click", StudyCycle.init);
 
 // Criar um ciclo de estudos (POST)
 createStudyCycleForm.addEventListener("submit", (event) => {
@@ -136,9 +116,9 @@ document.addEventListener("click", Subject.removeSubject);
  * @return {number} O resultado
  */
 function getMultiplier() {
-  multiplierInput.value = (Number(userDiaryStudyingHoursInput.value) / totalWeights).toFixed(
-    2
-  );
+  multiplierInput.value = (
+    Number(userDiaryStudyingHoursInput.value) / totalWeights
+  ).toFixed(2);
 
   return (Number(userDiaryStudyingHoursInput.value) / totalWeights).toFixed(2);
 }

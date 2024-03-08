@@ -1,11 +1,13 @@
+import { Security } from "./Security.class.js";
+
 export class StudyCycle {
   date;
   subjects;
   weeksFullCycle;
   weeksPassed;
   cycleCompleted;
-	
-	/**
+
+  /**
    * Constructor for initializing the subjects and date.
    *
    * @param {Array} subjects - The array of subjects to be initialized
@@ -20,9 +22,55 @@ export class StudyCycle {
     this.cycleCompleted = false;
   }
 
-	init() {
-		
-	}
+  static init() {
+    if (Security.checkUserDiaryStudyingHoursInput()) return;
+
+    StudyCycle.disableUserDiaryStudyingHoursInput();
+    StudyCycle.toggleStudyCycleCreationContainer();
+    StudyCycle.toggleInitStudyCycleBtn();
+    StudyCycle.toggleCancelCreateStudyCycleBtn();
+  }
+
+  static cancel() {}
+
+  static toggleStudyCycleCreationContainer() {
+    const studyCycleCreateContainer = document.getElementById(
+      "create-study-cycle-container"
+    );
+
+    studyCycleCreateContainer.classList.toggle("hidden");
+  }
+
+  static toggleCancelCreateStudyCycleBtn() {
+    const cancelCreateStudyCycleBtn = document.getElementById(
+      "cancel-study-cycle-creation-btn"
+    );
+
+    cancelCreateStudyCycleBtn.classList.toggle("hidden");
+  }
+
+  static toggleInitStudyCycleBtn() {
+    const initCreateStudyCycleBtn = document.getElementById(
+      "init-study-cycle-creation-btn"
+    );
+
+    initCreateStudyCycleBtn.classList.toggle("hidden");
+  }
+
+  static disableInitStudyCycleBtn() {
+    const initCreateStudyCycleBtn = document.getElementById(
+      "init-study-cycle-creation-btn"
+    );
+
+    initCreateStudyCycleBtn.disabled = true;
+  }
+
+  static disableUserDiaryStudyingHoursInput() {
+    const userDiaryStudyingHoursInput =
+      document.getElementById("studying-max-hours");
+
+    userDiaryStudyingHoursInput.disabled = true;
+  }
 
   download() {}
 
