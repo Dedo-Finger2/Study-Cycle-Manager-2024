@@ -16,6 +16,8 @@ const openDeleteStudyCycleModal = document.getElementById(
   "open-delete-study-cycle-modal"
 );
 
+const exportAsCsvBtn = document.getElementById("export-as-csv-btn");
+
 confirmDeleteStudyCycle.addEventListener("click", () => {
   localStorage.removeItem("myStudyCycle");
 
@@ -32,6 +34,10 @@ confirmDeleteStudyCycle.addEventListener("click", () => {
   window.location.reload();
 });
 
+exportAsCsvBtn.addEventListener("click", () => {
+  exportStudyCycleJson();
+});
+
 document.addEventListener("DOMContentLoaded", () => {
   if (studyCycle) {
     updateStudyCycleStatus();
@@ -42,6 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     noStudyCycleMsg.classList.add("hidden");
     openDeleteStudyCycleModal.classList.remove("hidden");
+    exportAsCsvBtn.classList.remove("hidden");
 
     const studyCycleObj = JSON.parse(studyCycle);
 
@@ -258,4 +265,24 @@ function resetAllSubjectsCurrentHours() {
 
     localStorage.setItem("myStudyCycle", JSON.stringify(studyCycleObj));
   }
+}
+
+function exportStudyCycleJson() {
+  const studyCycleObj = JSON.parse(localStorage.getItem("myStudyCycle"));
+  const studyCycleConfig = JSON.parse(
+    localStorage.getItem("myStudyCycleUserConfig")
+  );
+
+  const currentDate = new Date().toLocaleDateString();
+
+  const exportObj = {
+    ...studyCycleObj,
+    ...studyCycleConfig,
+  };
+
+  const exportFile = new Blob([JSON.stringify(exportObj, null, 2)], {
+    type: "application/json",
+  });
+
+  saveAs(exportFile, `myStudyCycle-${currentDate}.json`);
 }
