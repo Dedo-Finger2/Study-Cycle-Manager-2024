@@ -25,13 +25,18 @@ export class StudyCycle {
   static init() {
     if (Security.checkUserDiaryStudyingHoursInput()) return;
 
-    StudyCycle.disableUserDiaryStudyingHoursInput();
+    StudyCycle.toggleUserDiaryStudyingHoursInput("disabled");
     StudyCycle.toggleStudyCycleCreationContainer();
     StudyCycle.toggleInitStudyCycleBtn();
     StudyCycle.toggleCancelCreateStudyCycleBtn();
   }
 
-  static cancel() {}
+  static cancel() {
+    StudyCycle.toggleStudyCycleCreationContainer();
+    StudyCycle.toggleCancelCreateStudyCycleBtn();
+    StudyCycle.toggleInitStudyCycleBtn();
+    StudyCycle.toggleUserDiaryStudyingHoursInput("enable");
+  }
 
   static toggleStudyCycleCreationContainer() {
     const studyCycleCreateContainer = document.getElementById(
@@ -65,11 +70,11 @@ export class StudyCycle {
     initCreateStudyCycleBtn.disabled = true;
   }
 
-  static disableUserDiaryStudyingHoursInput() {
+  static toggleUserDiaryStudyingHoursInput(state) {
     const userDiaryStudyingHoursInput =
       document.getElementById("studying-max-hours");
 
-    userDiaryStudyingHoursInput.disabled = true;
+    userDiaryStudyingHoursInput.disabled = state === "disabled" ? true : false;
   }
 
   download() {}

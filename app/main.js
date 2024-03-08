@@ -90,19 +90,7 @@ createStudyCycleForm.addEventListener("submit", (event) => {
 });
 
 // Cancelar a criação de um ciclo de estudos
-cancelCreateStudyCycleBtn.addEventListener("click", () => {
-  // Esconde o container de criação de ciclos de estudos
-  studyCycleCreateContainer.classList.toggle("hidden");
-
-  // Esconde o botão de cancelar a criação do ciclo de estudos
-  cancelCreateStudyCycleBtn.classList.toggle("hidden");
-
-  // Mostra o botão de criação de ciclo de estudos
-  initCreateStudyCycleBtn.classList.toggle("hidden");
-
-  // Ativa o input de configuração de horas de estudo diário
-  userDiaryStudyingHoursInput.disabled = false;
-});
+cancelCreateStudyCycleBtn.addEventListener("click", StudyCycle.cancel);
 
 // Trata a deleção de uma matéria criada pelo usuário
 document.addEventListener("click", Subject.removeSubject);
