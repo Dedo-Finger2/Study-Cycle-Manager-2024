@@ -23,4 +23,14 @@ export class Security {
 
     return false;
   }
+
+  static customSuccessModal(message) {
+    Security.successModalMessage.textContent = message;
+    Security.successModal.showModal();
+  }
+
+  static customErrorModal(message) {
+    Security.errorModalMessage.textContent = message;
+    Security.errorModal.showModal();
+  }
 }

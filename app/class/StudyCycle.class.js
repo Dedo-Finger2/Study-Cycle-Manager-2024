@@ -1,26 +1,9 @@
 import { Security } from "./Security.class.js";
+import { Subject } from "./Subject.class.js";
 
 export class StudyCycle {
-  date;
-  subjects;
-  weeksFullCycle;
-  weeksPassed;
-  cycleCompleted;
-
-  /**
-   * Constructor for initializing the subjects and date.
-   *
-   * @param {Array} subjects - The array of subjects to be initialized
-   */
-  constructor(subjects = []) {
-    this.subjects = [];
-
-    this.date = new Date().toLocaleDateString();
-    this.subjects = subjects;
-    this.weeksFullCycle = 0;
-    this.weeksPassed = 0;
-    this.cycleCompleted = false;
-  }
+  static totalWeights = 0;
+  static globalId = 1;
 
   static init() {
     if (Security.checkUserDiaryStudyingHoursInput()) return;
@@ -36,6 +19,76 @@ export class StudyCycle {
     StudyCycle.toggleCancelCreateStudyCycleBtn();
     StudyCycle.toggleInitStudyCycleBtn();
     StudyCycle.toggleUserDiaryStudyingHoursInput("enable");
+  }
+
+  static create() {
+    // Pegando todos os inputs de peso e nome das matérias
+    const weightInputs = document.querySelectorAll('input[id*="weight"]');
+    const nameInputs = document.querySelectorAll('input[id*="name"]');
+
+    // Para cada input de peso, adicionar seu valor na variável "totalWeights"
+    weightInputs.forEach((weightInput) => {
+      StudyCycle.totalWeights += Number(weightInput.value);
+    });
+
+    // Esconde o container de criação de ciclo de estudos
+    StudyCycle.toggleStudyCycleCreationContainer();
+
+    // Some com o botão de cancelar a criação do ciclo de estudos
+    StudyCycle.toggleCancelCreateStudyCycleBtn();
+    // Mostra o botão de criação de ciclos de estudos
+    StudyCycle.toggleInitStudyCycleBtn();
+
+    // Desabilita o botão de criação de ciclo de estudos
+    StudyCycle.disableInitStudyCycleBtn();
+    // Desabilita o input de configuração de horas de estudo diário
+    StudyCycle.toggleUserDiaryStudyingHoursInput("disabled");
+
+    // Seta o valor do input de multiplicador para o multiplicador encontrado
+    StudyCycle.setMultiplier();
+    // Seta o valor do input de horas semanais para as horas semanais encontradas
+    StudyCycle.setWeeklyStudyHours();
+
+    // Cria um objeto com os dados e salva no LocalStorage
+    StudyCycle.createObj();
+
+    // Reseta o ID
+    StudyCycle.globalId = 0;
+
+    // Salva as configurações no LocalStorage
+    // saveStudyCycleConfig();
+
+    StudyCycle.toggleBetweenMessageOrLinkToMyStudyCycle();
+
+    // Mostra o modal de sucesso
+    Security.customSuccessModal("Study cycle created successfully!");
+  }
+
+  static createObj() {
+    const nameInputs = document.querySelectorAll('input[id*="name"]');
+    const weightInputs = document.querySelectorAll('input[id*="weight"]');
+
+    // Cria um objeto com as informações do novo ciclo de estudo
+    const studyCycleObj = {
+      [StudyCycle.todaysFormattedDate]: [], // É aqui que ficam as matérias, a chave é a data de hoje
+      cycleCompleted: false, // Indica se o ciclo de estudo foi concluído
+      weeksPassed: 0, // Indica quantas semanas o usuário concluiu
+      weeksFullCycle: 0, // Indica quantas semanas o ciclo de estudo ficou completo
+      startedAt: StudyCycle.todaysFormattedDate, // Data em que o ciclo de estudo foi iniciado
+    };
+
+    Subject.resetGlobalId();
+
+    // Para cada input de nome, adiciona um novo objeto ao array
+    nameInputs.forEach((nameInput, index) => {
+      const newSubject = new Subject(
+        nameInput.value,
+        Number(weightInputs[index].value)
+      );
+      studyCycleObj[StudyCycle.todaysFormattedDate].push(newSubject.info);
+    });
+
+    console.log(studyCycleObj);
   }
 
   static toggleStudyCycleCreationContainer() {
@@ -77,11 +130,51 @@ export class StudyCycle {
     userDiaryStudyingHoursInput.disabled = state === "disabled" ? true : false;
   }
 
+  static setWeeklyStudyHours() {
+    const weeklyStudyHoursInput = document.getElementById("weekly-study-hours");
+    const userDiaryStudyingHoursInput =
+      document.getElementById("studying-max-hours");
+
+    weeklyStudyHoursInput.value = Number(userDiaryStudyingHoursInput.value) * 7;
+  }
+
+  static setMultiplier() {
+    const multiplierInput = document.getElementById("multiplier");
+    const userDiaryStudyingHoursInput =
+      document.getElementById("studying-max-hours");
+
+    const userDiaryStudyingHours = Number(userDiaryStudyingHoursInput.value);
+    const multiplierValue = Number(
+      (userDiaryStudyingHours / StudyCycle.totalWeights).toFixed(2)
+    );
+
+    multiplierInput.value = multiplierValue;
+  }
+
+  static toggleBetweenMessageOrLinkToMyStudyCycle() {
+    const myStudyCycleLink = document.getElementById("my-study-cycle-link");
+    const noStudyCycleMsg = document.getElementById("no-study-cycle-msg");
+
+    // Mostra o link que leva até o ciclo de estudos criado
+    myStudyCycleLink.classList.toggle("hidden");
+    // Esconde a mensagem que diz que não existe ciclo de estudos criado
+    noStudyCycleMsg.classList.toggle("hidden");
+  }
+
+  get todaysFormattedDate() {
+    const currentDate = new Date();
+    const formattedDate = currentDate.toLocaleDateString();
+
+    return formattedDate;
+  }
+
   download() {}
 
   delete() {}
 
-  save() {}
+  saveStudyCycle() {}
+
+  saveConfig() {}
 
   get info() {
     return {

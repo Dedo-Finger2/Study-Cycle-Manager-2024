@@ -86,7 +86,7 @@ createStudyCycleForm.addEventListener("submit", (event) => {
   event.preventDefault(); // Previne o formulário de dar submit de fato
 
   // Chama a função que cuida da criação de um ciclo de estudos
-  handleStudyCycleCreation();
+  StudyCycle.create();
 });
 
 // Cancelar a criação de um ciclo de estudos

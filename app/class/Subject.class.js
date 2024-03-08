@@ -4,7 +4,7 @@ export class Subject {
   name;
   weight;
   maxHoursAWeek;
-  currentUserWeekHours;
+  currentWeekHours;
   status;
 
   /**
@@ -14,11 +14,13 @@ export class Subject {
    * @param {number} weight - description of parameter
    */
   constructor(name = undefined, weight = undefined) {
-    this.id = Subject.globalId++;
+    this.id = Subject.globalId;
     this.name = name;
     this.weight = weight;
-    this.currentUserWeekHours = 0;
+    this.currentWeekHours = 0;
     this.status = "Can Study";
+
+    Subject.globalId++;
   }
 
   addNewSubject(subjectsContainer) {
@@ -135,15 +137,27 @@ export class Subject {
 
   addCurrentWeekHours() {}
 
-  get maxHoursAWeek() {}
+  static resetGlobalId() {
+    Subject.globalId = 1;
+  }
+
+  get subjectHours() {
+    const multiplierInput = document.getElementById("multiplier");
+
+    // Calcula as horas que a matéria pode ser estudada semanalmente
+    const hours = this.weight * Number(multiplierInput.value).toFixed(2);
+
+    // Retorna o resultado arrendondado para cima
+    return Math.ceil(hours);
+  }
 
   get info() {
     return {
       id: this.id,
       name: this.name,
       weight: this.weight,
-      maxHoursAWeek: this.maxHoursAWeek,
-      currentUserWeekHours: this.currentUserWeekHours,
+      maxHoursAWeek: this.subjectHours,
+      currentWeekHours: this.currentWeekHours,
       status: this.status,
     };
   }
