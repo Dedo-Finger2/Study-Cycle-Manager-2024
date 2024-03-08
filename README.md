@@ -1,6 +1,6 @@
-- [ ] Implementar a possibilidade de cancelar a criação de um ciclo de estudos ao apertar no botão de create
-- [ ] Erros
-  - [ ] Se eu mudar o valor das horas de estudo diário durante a criação eu quebro o sistema na hora de criar o ciclo
+- [x] Implementar a possibilidade de cancelar a criação de um ciclo de estudos ao apertar no botão de create
+- [X] Erros
+  - [x] Se eu mudar o valor das horas de estudo diário durante a criação eu quebro o sistema na hora de criar o ciclo
 - [ ] Implementar exportação como JSON ou CSV
 - [ ] Fazer mais validações
   - [ ] Não deve ser possível criar um ciclo de estudos se já existir um no localStorage

@@ -104,6 +104,7 @@ initCreateStudyCycleBtn.addEventListener("click", () => {
   studyCycleCreateContainer.classList.toggle("hidden");
   cancelCreateStudyCycleBtn.classList.toggle("hidden");
   initCreateStudyCycleBtn.classList.toggle("hidden");
+  userMaxHours.disabled = true;
 });
 
 createStudyCycleForm.addEventListener("submit", (event) => {
@@ -116,6 +117,7 @@ cancelCreateStudyCycleBtn.addEventListener("click", () => {
   studyCycleCreateContainer.classList.toggle("hidden");
   cancelCreateStudyCycleBtn.classList.toggle("hidden");
   initCreateStudyCycleBtn.classList.toggle("hidden");
+  userMaxHours.disabled = false;
 });
 
 document.addEventListener("click", (event) => {
