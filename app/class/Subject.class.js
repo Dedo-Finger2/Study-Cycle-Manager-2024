@@ -43,6 +43,7 @@ export class Subject {
     const nameContainer = document.createElement("div");
     nameContainer.appendChild(this.nameLabel);
     nameContainer.appendChild(this.nameInput);
+    nameContainer.appendChild(this.nameSpanValidation);
 
     return nameContainer;
   }
@@ -65,10 +66,19 @@ export class Subject {
     return nameInput;
   }
 
+  get nameSpanValidation() {
+    const nameSpanValidation = document.createElement("span");
+    nameSpanValidation.id = `error-subject-${this.id}-name`;
+    nameSpanValidation.textContent = "Type the name of this subject";
+
+    return nameSpanValidation;
+  }
+
   get weightContainer() {
     const weightContainer = document.createElement("div");
     weightContainer.appendChild(this.weightLabel);
     weightContainer.appendChild(this.weightInput);
+    weightContainer.appendChild(this.weightSpanValidation);
 
     return weightContainer;
   }
@@ -91,6 +101,15 @@ export class Subject {
     weightInput.placeholder = "Peso";
 
     return weightInput;
+  }
+
+  get weightSpanValidation() {
+    const weightSpanValidation = document.createElement("span");
+    weightSpanValidation.id = `error-subject-${this.id}-weight`;
+    weightSpanValidation.textContent =
+      "Type a weight for this subject, higher = more difficulty (1-5)";
+
+    return weightSpanValidation;
   }
 
   get removeSubjectBtn() {

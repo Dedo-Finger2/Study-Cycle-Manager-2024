@@ -2,3 +2,11 @@
 .hidden {
     display: none;
 }
+
+.validation-error {
+    color: red;
+}
+
+.validation-success {
+    color: green;
+}

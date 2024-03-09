@@ -45,6 +45,7 @@
                         <label for="studying-max-hours">Max hours of studying</label>
                         <input type="number" min="1" max="24" id="studying-max-hours" required
                             placeholder="Horas Maximas">
+                        <span id="error-studying-max-hours">Insert the amount of hours you want to study daily</span>
                     </div>
                     <br>
                     <div>
@@ -73,13 +74,14 @@
                             <div>
                                 <label for="subject-name-0">Name</label>
                                 <input type="text" id="subject-name-0" required placeholder="Nome da Materia">
-
+                                <span id="error-subject-0-name">Type the name of this subject</span>
                             </div>
 
                             <div>
                                 <label for="subject-weight-0">Weight</label>
                                 <input type="number" step="1" min="1" required max="5" id="subject-weight-0"
                                     placeholder="Peso">
+                                <span id="error-subject-0-weight">Type a weight for this subject, higher = more difficulty (1-5)</span>
                             </div>
                             <br>
                         </div>
@@ -102,6 +104,7 @@
 
     <!-- Main script for the page -->
     <script type="module" src="app/index.js"></script>
+    <script type="module" src="app/validations.js"></script>
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
