@@ -32,15 +32,28 @@ export class Subject {
   get newSubjectContainer() {
     const subjectContainer = document.createElement("div");
     subjectContainer.classList.add(`subject-container-${this.id}`);
-    subjectContainer.appendChild(this.nameContainer);
-    subjectContainer.appendChild(this.weightContainer);
-    subjectContainer.appendChild(this.removeSubjectBtn);
+    subjectContainer.appendChild(this.adjustSpacingBetweenInputsContainer);
 
     return subjectContainer;
   }
 
+  get adjustSpacingBetweenInputsContainer() {
+    const adjustSpacingBetweenInputsContainer = document.createElement("div");
+    adjustSpacingBetweenInputsContainer.classList.add(
+      "flex",
+      "flex-col",
+      "gap-4"
+    );
+    adjustSpacingBetweenInputsContainer.appendChild(this.nameContainer);
+    adjustSpacingBetweenInputsContainer.appendChild(this.weightContainer);
+    adjustSpacingBetweenInputsContainer.appendChild(this.removeSubjectBtn);
+
+    return adjustSpacingBetweenInputsContainer;
+  }
+
   get nameContainer() {
     const nameContainer = document.createElement("div");
+    nameContainer.classList.add("flex", "flex-col", "gap-2");
     nameContainer.appendChild(this.nameLabel);
     nameContainer.appendChild(this.nameInput);
     nameContainer.appendChild(this.nameSpanValidation);
@@ -52,6 +65,7 @@ export class Subject {
     const nameLabel = document.createElement("label");
     nameLabel.for = `subject-name-${this.id}`;
     nameLabel.textContent = "Name";
+    nameLabel.classList.add("font-semibold");
 
     return nameLabel;
   }
@@ -62,6 +76,17 @@ export class Subject {
     nameInput.required = true;
     nameInput.id = `subject-name-${this.id}`;
     nameInput.placeholder = "Nome da Materia";
+    nameInput.classList.add(
+      "border",
+      "border-sky-700",
+      "py-1",
+      "px-2",
+      "rounded",
+      "transition-all",
+      "ease-in-out",
+      "font-medium",
+      "focus:outline-sky-600"
+    );
 
     return nameInput;
   }
@@ -70,12 +95,14 @@ export class Subject {
     const nameSpanValidation = document.createElement("span");
     nameSpanValidation.id = `error-subject-${this.id}-name`;
     nameSpanValidation.textContent = "Type the name of this subject";
+    nameSpanValidation.classList.add("text-sm", "italic", "text-gray-500");
 
     return nameSpanValidation;
   }
 
   get weightContainer() {
     const weightContainer = document.createElement("div");
+    weightContainer.classList.add("flex", "flex-col", "gap-2");
     weightContainer.appendChild(this.weightLabel);
     weightContainer.appendChild(this.weightInput);
     weightContainer.appendChild(this.weightSpanValidation);
@@ -87,6 +114,7 @@ export class Subject {
     const weightLabel = document.createElement("label");
     weightLabel.for = `subject-weight-${this.id}`;
     weightLabel.textContent = "Weight";
+    weightLabel.classList.add("font-semibold");
 
     return weightLabel;
   }
@@ -99,6 +127,17 @@ export class Subject {
     weightInput.min = "1";
     weightInput.max = "5";
     weightInput.placeholder = "Peso";
+    weightInput.classList.add(
+      "border",
+      "border-sky-700",
+      "py-1",
+      "px-2",
+      "rounded",
+      "transition-all",
+      "ease-in-out",
+      "font-medium",
+      "focus:outline-sky-600"
+    );
 
     return weightInput;
   }
@@ -108,6 +147,7 @@ export class Subject {
     weightSpanValidation.id = `error-subject-${this.id}-weight`;
     weightSpanValidation.textContent =
       "Type a weight for this subject, higher = more difficulty (1-5)";
+    weightSpanValidation.classList.add("text-sm", "italic", "text-gray-500");
 
     return weightSpanValidation;
   }
@@ -118,6 +158,19 @@ export class Subject {
     removeSubjectBtn.textContent = "Remove";
     removeSubjectBtn.classList.add("remove-subject-btn");
     removeSubjectBtn.dataset.subjectContainerId = this.id;
+    removeSubjectBtn.classList.add(
+      "text-sky-50",
+      "bg-red-500",
+      "p-2",
+      "rounded",
+      "text-sm",
+      "font-bold",
+      "shadow-md",
+      "transition-all",
+      "ease-in-out",
+      "hover:bg-red-600",
+      "mt-3"
+    );
 
     return removeSubjectBtn;
   }
