@@ -27,15 +27,15 @@
         </dialog>
 
         <!-- Modal de sucesso -->
-        <dialog id="success-modal" class="border border-green-500 rounded py-8 md:py-10 bg-gray-100">
-            <div class="flex flex-col gap-4 items-center"></div>
-            <div class="size-12 bg-green-500 rounded-full"></div>
-            <h1 class="text-3xl font-bold">SUCCESS!</h1>
-            <div class="w-2/3 text-center">
-                <p id="success-modal-message" class="font-semibold"></p>
-            </div>
-            <button id="close" onclick="document.getElementById('success-modal').close()"
-                class="text-sky-50 bg-green-500 p-2 rounded text-md font-bold shadow-md w-1/2 transition-all ease-in-out hover:bg-green-600">Close</button>
+        <dialog id="success-modal" class="border border-green-500 rounded py-8 px-10 md:py-10 bg-gray-100">
+            <div class="flex flex-col gap-4 items-center px-32">
+                <div class="size-12 bg-green-500 rounded-full"></div>
+                <h1 class="text-3xl font-bold">SUCCESS!</h1>
+
+                <p id="success-modal-message" class="font-semibold">Lorem ipsum dolor.</p>
+
+                <button id="close" onclick="document.getElementById('success-modal').close()"
+                    class="text-sky-50 bg-red-500 p-2 rounded text-md font-bold shadow-md w-1/2 transition-all ease-in-out hover:bg-red-600">Close</button>
             </div>
         </dialog>
 
@@ -55,7 +55,7 @@
             <!-- Study Cycle create btn -->
             <div id="buttons-control" class="flex justify-center pt-14 pb-8">
                 <button id="init-study-cycle-creation-btn"
-                    class="text-sky-50 bg-sky-500 p-2 rounded text-2xl font-bold shadow-md transition-all ease-in-out hover:bg-sky-600">Create
+                    class="text-sky-50 bg-sky-500 p-2 rounded text-2xl font-bold shadow-md transition-all ease-in-out hover:bg-sky-600 disabled:bg-sky-300">Create
                     new</button>
                 <button id="cancel-study-cycle-creation-btn"
                     class="hidden text-sky-50 bg-red-500 p-2 rounded text-2xl font-bold shadow-md transition-all ease-in-out hover:bg-red-600">Cancel</button>
