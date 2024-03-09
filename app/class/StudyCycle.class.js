@@ -25,30 +25,26 @@ export class StudyCycle {
   }
 
   static create() {
-    // Pegando todos os inputs de peso e nome das matérias
-    const weightInputs = document.querySelectorAll('input[id*="weight"]');
-    const nameInputs = document.querySelectorAll('input[id*="name"]');
-
-    // Para cada input de peso, adicionar seu valor na variável "totalWeights"
-    weightInputs.forEach((weightInput) => {
-      StudyCycle.totalWeights += Number(weightInput.value);
-    });
+    StudyCycle.sumAllSubjectWeights();
 
     // Esconde o container de criação de ciclo de estudos
     StudyCycle.toggleStudyCycleCreationContainer();
 
     // Some com o botão de cancelar a criação do ciclo de estudos
     StudyCycle.toggleCancelCreateStudyCycleBtn();
+
     // Mostra o botão de criação de ciclos de estudos
     StudyCycle.toggleInitStudyCycleBtn();
 
     // Desabilita o botão de criação de ciclo de estudos
     StudyCycle.disableInitStudyCycleBtn();
+
     // Desabilita o input de configuração de horas de estudo diário
     StudyCycle.toggleUserDiaryStudyingHoursInput("disabled");
 
     // Seta o valor do input de multiplicador para o multiplicador encontrado
     StudyCycle.setMultiplier();
+    
     // Seta o valor do input de horas semanais para as horas semanais encontradas
     StudyCycle.setWeeklyStudyHours();
 
@@ -67,6 +63,15 @@ export class StudyCycle {
     Security.customSuccessModal("Study cycle created successfully!");
   }
 
+  static sumAllSubjectWeights() {
+    const weightInputs = document.querySelectorAll('input[id*="weight"]');
+
+    // Para cada input de peso, adicionar seu valor na variável "totalWeights"
+    weightInputs.forEach((weightInput) => {
+      StudyCycle.totalWeights += Number(weightInput.value);
+    });
+  }
+
   static createObj() {
     // Cria um objeto com as informações do novo ciclo de estudo
     const studyCycleObj = {
@@ -80,8 +85,6 @@ export class StudyCycle {
     StudyCycle.addSubjects(studyCycleObj);
 
     StudyCycle.saveStudyCycle(studyCycleObj);
-
-    console.log(studyCycleObj);
   }
 
   static addSubjects(studyCycleObj) {
