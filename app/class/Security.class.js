@@ -42,6 +42,24 @@ export class Security {
     }
   }
 
+  static checkIfStudyCycleExists() {
+    if (localStorage.getItem("myStudyCycle")) {
+      return true;
+    }
+
+    return false;
+  }
+
+  static checkIfAllSubjectsAreCompleted() {
+    const studyCycleObj = JSON.parse(localStorage.getItem("myStudyCycle"));
+
+    if (studyCycleObj.cycleCompleted === true) {
+      completedCycleMsg.classList.remove("hidden");
+    } else {
+      completedCycleMsg.classList.add("hidden");
+    }
+  }
+
   static customSuccessModal(message) {
     Security.successModalMessage.textContent = message;
     Security.successModal.showModal();

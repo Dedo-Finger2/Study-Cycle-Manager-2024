@@ -25,7 +25,7 @@ export class Subject {
 
   addNewSubject() {
     const subjectsContainer = document.getElementById("subjects");
-    
+
     subjectsContainer.appendChild(this.newSubjectContainer);
   }
 
@@ -121,7 +121,19 @@ export class Subject {
     this.weight = value;
   }
 
-  updateStatus() {}
+  static updateStatus(subject) {
+    const subjectStatusSpan = document.getElementById(
+      `subject-${subject.id}-status`
+    );
+
+    if (subject.currentWeekHours >= subject.maxHoursAWeek) {
+      subject.status = "Done!";
+      subjectStatusSpan.textContent = subject.status;
+    } else {
+      subject.status = "Can Study";
+      subjectStatusSpan.textContent = subject.status;
+    }
+  }
 
   static removeSubject() {
     const allRemoveSubjectBtn =
@@ -137,7 +149,59 @@ export class Subject {
     }
   }
 
-  addCurrentWeekHours() {}
+  static addCurrentWeekHours(subjectId, subjectHourId) {
+    let studyCycleObj = JSON.parse(localStorage.getItem("myStudyCycle")); // Objeto que armazena o ciclo de estudos
+    const subjects = Object.values(studyCycleObj)[0]; // Matérias do ciclo de estudos
+
+    subjects.forEach((subject) => {
+      // Loop para encontrar a matéria desejada
+      if (subject.id === Number(subjectId)) {
+        // Se a matéria for encontrada
+        if (subjectHourId <= subject.maxHoursAWeek) {
+          // Se a hora não ultrapassar a hora máxima por semana
+          subject.currentWeekHours++; // Adiciona uma hora à agenda semanal da matéria
+
+          Subject.updateStatus(subject); // Atualiza o status da matéria
+
+          localStorage.setItem("myStudyCycle", JSON.stringify(studyCycleObj)); // Salva a alteração no ciclo de estudos no LocalStorage
+          console.log(subject); // Exibe a matéria no console
+        }
+      }
+    });
+
+    localStorage.setItem(
+      `subject-${subjectId}-${subjectHourId}-hour`,
+      "checked"
+    ); // Marca a hora da matéria como adicionada no LocalStorage
+  }
+
+  static removeCurrentWeekHours(subjectId, subjectHourId) {
+    let studyCycleObj = JSON.parse(localStorage.getItem("myStudyCycle")); // Objeto que armazena o ciclo de estudos
+    const subjects = Object.values(studyCycleObj)[0]; // Matérias do ciclo de estudos
+
+    // Loop para encontrar o assunto desejado
+    subjects.forEach((subject) => {
+      if (subject.id === Number(subjectId)) {
+        // Se a hora não ultrapassar a hora máxima por semana
+        if (subjectHourId <= subject.maxHoursAWeek) {
+          // Subtrai uma hora à agenda semanal do assunto
+          subject.currentWeekHours--;
+          // Atualiza o status do assunto
+          Subject.updateStatus(subject);
+          // Salva a alteração no ciclo de estudos no LocalStorage
+          localStorage.setItem("myStudyCycle", JSON.stringify(studyCycleObj));
+          // Exibe o assunto no console
+          console.log(subject);
+        }
+      }
+    });
+
+    // Remove a marcação do checkbox da localStorage
+    localStorage.removeItem(
+      `subject-${subjectId}-${subjectHourId}-hour`,
+      "checked"
+    );
+  }
 
   static resetGlobalId() {
     Subject.globalId = 1;

@@ -5,6 +5,8 @@ export class StudyCycle {
   static totalWeights = 0;
   static globalId = 1;
   static todaysFormattedDate = new Date().toLocaleDateString("pt-BR");
+  static sumWeekHours = 0;
+  static sumUserHours = 0;
 
   static init() {
     if (Security.checkUserDiaryStudyingHoursInput()) return;
@@ -137,6 +139,26 @@ export class StudyCycle {
     userDiaryStudyingHoursInput.disabled = state === "disabled" ? true : false;
   }
 
+  static toggleNoStudyCycleMsgSecondPage() {
+    const noStudyCycleMsg = document.getElementById("no-study-cycle-msg");
+
+    noStudyCycleMsg.classList.toggle("hidden");
+  }
+
+  static toggleExportStudyCycleBtn() {
+    const exportAsCsvBtn = document.getElementById("export-as-csv-btn");
+
+    exportAsCsvBtn.classList.toggle("hidden");
+  }
+
+  static toggleDeleteStudyCycleBtn() {
+    const openDeleteStudyCycleModal = document.getElementById(
+      "open-delete-study-cycle-modal"
+    );
+
+    openDeleteStudyCycleModal.classList.toggle("hidden");
+  }
+
   static setWeeklyStudyHours() {
     const weeklyStudyHoursInput = document.getElementById("weekly-study-hours");
     const userDiaryStudyingHoursInput =
@@ -235,6 +257,237 @@ export class StudyCycle {
 
     // Recarrega a página
     window.location.reload();
+  }
+
+  static showCompletedStudyCycleSubjectsMsg() {
+    const studyCycleObj = JSON.parse(localStorage.getItem("myStudyCycle"));
+    const completedCycleMsg = document.getElementById(
+      "completed-all-subjects-msg"
+    );
+
+    if (studyCycleObj.cycleCompleted === true) {
+      completedCycleMsg.classList.remove("hidden");
+    } else {
+      completedCycleMsg.classList.add("hidden");
+    }
+  }
+
+  static showStudyCycleSubjects() {
+    if (Security.checkIfStudyCycleExists()) {
+      const studyCycle = localStorage.getItem("myStudyCycle");
+
+      StudyCycle.updateStatus();
+
+      StudyCycle.weeklyUserHoursAutoReset();
+
+      StudyCycle.toggleNoStudyCycleMsgSecondPage();
+
+      StudyCycle.showCompletedStudyCycleSubjectsMsg();
+
+      // Toggle os botoes de download e delete
+      StudyCycle.toggleDeleteStudyCycleBtn();
+      StudyCycle.toggleExportStudyCycleBtn();
+
+      const studyCycleObj = JSON.parse(studyCycle);
+
+      const studyCycleInfoContainer =
+        document.getElementById("study-cycle-info");
+
+      // Itera sobre cada data (chave) no objeto "studyCycleObj"
+      for (const date in studyCycleObj) {
+        // Verifica se a data contém "/", indicando que é uma data válida
+        if (date.includes("/")) {
+          // Obtém a lista de assuntos da data atual
+          const dataList = studyCycleObj[date];
+
+          // Cria um elemento div para envolver os dados da data atual
+          const studyCycleData = document.createElement("div");
+          studyCycleData.id = "study-cycle-data";
+
+          // Cria um elemento h2 para exibir a data atual
+          const dateTitle = document.createElement("h2");
+          dateTitle.textContent = date;
+
+          // Cria um elemento span para exibir o número de semanas passadas
+          const weeksPassed = document.createElement("span");
+          weeksPassed.id = "weeks-passed";
+          weeksPassed.textContent = `Semanas Passadas: ${studyCycleObj.weeksPassed}`;
+
+          // Cria um elemento span para exibir o número de semanas em um ciclo completo
+          const weeksFullCycle = document.createElement("span");
+          weeksFullCycle.id = "weeks-full-cycle";
+          weeksFullCycle.textContent = `Ciclo Completo de Semanas: ${studyCycleObj.weeksFullCycle}`;
+
+          // Cria um elemento span para exibir a data de início
+          const startedAtDateSpan = document.createElement("span");
+          startedAtDateSpan.id = "started-at-date";
+          startedAtDateSpan.textContent = `Iniciado Em: ${studyCycleObj.startedAt}`;
+
+          // Cria elementos br para adicionar espaçamento
+          const breakBetweenWeeksSpans = document.createElement("br");
+          const breakBetweenWeeksSpanAndStartedDate =
+            document.createElement("br");
+          const breakBetweenWeeksAndSubjects = document.createElement("br");
+
+          // Adiciona os elementos ao elemento studyCycleData
+          studyCycleData.appendChild(dateTitle);
+          studyCycleData.appendChild(startedAtDateSpan);
+          studyCycleData.appendChild(breakBetweenWeeksSpanAndStartedDate);
+          studyCycleData.appendChild(weeksPassed);
+          studyCycleData.appendChild(breakBetweenWeeksSpans);
+          studyCycleData.appendChild(weeksFullCycle);
+
+          // Adiciona o elemento studyCycleData ao container de informações de estudos
+          studyCycleInfoContainer.appendChild(studyCycleData);
+          studyCycleInfoContainer.appendChild(breakBetweenWeeksAndSubjects);
+
+          // Itera sobre cada assunto na lista de assuntos da data atual
+          dataList.forEach((subject) => {
+            // Cria um elemento div para envolver cada assunto
+            const subjectDiv = document.createElement("div");
+
+            // Cria um elemento span para exibir o nome do assunto
+            const subjectName = document.createElement("span");
+            subjectName.textContent = subject.name;
+
+            subjectDiv.appendChild(subjectName);
+
+            // Itera sobre cada hora do assunto
+            for (let index = 1; index <= subject.maxHoursAWeek; index++) {
+              // Cria um elemento checkbox para cada hora do assunto
+              const checkbox = document.createElement("input");
+              checkbox.type = "checkbox";
+              checkbox.name = `subject-${subject.id}-${index}-hour`;
+              checkbox.id = `subject-${subject.id}`;
+              checkbox.value = 1;
+
+              subjectDiv.appendChild(checkbox);
+            }
+
+            // Cria um elemento span para exibir o status do assunto
+            const subjectStatus = document.createElement("span");
+            subjectStatus.textContent = subject.status;
+            subjectStatus.id = `subject-${subject.id}-status`;
+            subjectDiv.appendChild(subjectStatus);
+
+            // Cria um elemento br para adicionar espaçamento
+            const br = document.createElement("br");
+            studyCycleInfoContainer.appendChild(subjectDiv);
+            studyCycleInfoContainer.appendChild(br);
+          });
+        }
+      }
+
+      StudyCycle.subjectSaveCheckedCheckboxes();
+
+      StudyCycle.loadCheckedCheckboxes();
+    }
+  }
+
+  static subjectSaveCheckedCheckboxes() {
+    // Seletor de todos os inputs do tipo checkbox na página
+    const checkboxInputs = document.querySelectorAll('input[type="checkbox"]');
+
+    // Cria um event listener para cada checkbox
+    checkboxInputs.forEach((checkbox) => {
+      // Quando o checkbox é alterado (checked ou unchecked)
+      checkbox.addEventListener("change", (event) => {
+        // Extrai o ID do assunto e a ID da hora do checkbox alterado
+        const subjectId = event.target.name.split("-")[1];
+        const subjectHourId = event.target.name.split("-")[2];
+
+        // Se o checkbox foi marcado (checked)
+        if (checkbox.checked) {
+          // Chama a função para adicionar a hora ao assunto
+          console.log(`Marcação adicionada para o assunto ${subjectId}`);
+          Subject.addCurrentWeekHours(subjectId, subjectHourId);
+        } else {
+          // Se o checkbox foi desmarcado (unchecked)
+          // Chama a função para remover a hora do assunto
+          console.log(`Marcação removida para o assunto ${subjectId}`);
+          Subject.removeCurrentWeekHours(subjectId, subjectHourId);
+        }
+      });
+    });
+  }
+
+  static loadCheckedCheckboxes() {
+    const checkboxInputs = document.querySelectorAll('input[type="checkbox"]');
+
+    // Verifica se o checkbox está marcado na inicialização da página
+    checkboxInputs.forEach((checkbox) => {
+      const subjectId = checkbox.name.split("-")[1];
+      const subjectHourId = checkbox.name.split("-")[2];
+
+      // Se o checkbox está marcado na localStorage
+      if (
+        localStorage.getItem(`subject-${subjectId}-${subjectHourId}-hour`) ===
+        "checked"
+      ) {
+        // Marca o checkbox
+        checkbox.checked = true;
+      }
+    });
+  }
+
+  static updateStatus() {
+    // Obtém o objeto do ciclo de estudos a partir do LocalStorage
+    const studyCycleObj = JSON.parse(localStorage.getItem("myStudyCycle"));
+    // Obtém a lista de matérias do ciclo de estudos
+    const subjects = Object.values(studyCycleObj)[0];
+
+    // Loop para percorrer as matérias
+    subjects.forEach((subject) => {
+      // Soma as horas agendadas e máximas
+      StudyCycle.sumUserHours += subject.currentWeekHours;
+      StudyCycle.sumWeekHours += subject.maxHoursAWeek;
+    });
+
+    // Verifica se as horas agendadas excedem as horas máximas
+    // Se sim, define o ciclo de estudos como completo, caso contrário, define como incompleto
+    if (StudyCycle.sumUserHours >= StudyCycle.sumWeekHours) {
+      studyCycleObj.cycleCompleted = true;
+    } else {
+      studyCycleObj.cycleCompleted = false;
+    }
+
+    StudyCycle.saveStudyCycle(studyCycleObj);
+  }
+
+  static weeklyUserHoursAutoReset() {
+    // Obtém o objeto do ciclo de estudos do LocalStorage
+    const studyCycleObj = JSON.parse(localStorage.getItem("myStudyCycle"));
+
+    // Obtém a lista de matérias do ciclo de estudos
+    const subjects = Object.values(studyCycleObj)[0];
+
+    // Obtém a data atual
+    const currentDate = new Date();
+
+    // Verifica se é um domingo (dia de semana 0)
+    if (currentDate.getDay() === 0) {
+      // Zera as horas agendadas para cada matéria
+      subjects.forEach((subject) => {
+        subject.currentWeekHours = 0;
+      });
+
+      // Atualiza a data do ciclo de estudos para a data atual
+      const keys = Object.keys(studyCycleObj);
+      studyCycleObj[keys[0]] = currentDate.toLocaleDateString();
+
+      // Incrementa o número de semanas passadas
+      studyCycleObj.weeksPassed++;
+
+      // Se o ciclo de estudos está completo, incremente o número de semanas do ciclo completo
+      if (studyCycleObj.cycleCompleted === true) {
+        studyCycleObj.weeksFullCycle++;
+        // Define o ciclo de estudos como não concluído
+        studyCycleObj.cycleCompleted = false;
+      }
+
+      // Salva o objeto no LocalStorage
+      StudyCycle.saveStudyCycle(studyCycleObj);
+    }
   }
 
   static saveStudyCycle(studyCycleObj) {
