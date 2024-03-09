@@ -43,12 +43,13 @@
         <section id="hero-container" class="flex flex-col items-center justify-center">
             <!-- Título -->
             <div id="top-content" class="flex flex-col items-center">
-                <img src="app/imgs/logo-no-bg.png"
-                    class="w-3/12 mx-auto shadow-lg border border-3 transition-all ease-in-out border-sky-500 mb-8 rounded-md hover:shadow-xl hover:cursor-pointer"
-                    alt="imagem">
+                <a href="https://github.com/Dedo-Finger2/Study-Cycle-Manager-2024/tree/Tailwindcss-Apply" target="_blank"><img src="app/imgs/logo-no-bg.png"
+                        class="w-3/12 mx-auto shadow-lg border border-3 transition-all ease-in-out border-sky-500 mb-8 rounded-md hover:shadow-xl hover:cursor-pointer"
+                        alt="imagem"></a>
                 <h1 class="text-center text-4xl font-bold pb-5">My <span class="text-sky-500">Study Cycle</span></h1>
                 <hr>
-                <p class="text-center italic text-gray-500 font-semibold text-sm py-2">Note que o peso vai de 1 até 5.
+                <p class="text-center italic text-gray-500 font-semibold text-sm py-2">Keep tracking of what you need to
+                    study using the Study Cycle method!
                 </p>
             </div>
 
@@ -67,7 +68,7 @@
                 <!-- Config Form -->
                 <form id="config-study-cycle-form" class="flex flex-col items-center">
                     <div class="w-full md:w-8/12 mb-4">
-                        <label for="studying-max-hours" class="font-bold">Max hours of studying</label>
+                        <label for="studying-max-hours" class="font-bold">Daily Studying Hours</label>
                         <input type="number" min="1" max="24" id="studying-max-hours" required
                             placeholder="Horas Maximas"
                             class="w-full border border-sky-700 py-1 px-2 rounded transition-all ease-in-out font-medium focus:outline-sky-600">
@@ -77,15 +78,19 @@
 
                     <div class="w-full flex flex-col md:flex-row gap-4">
                         <div class="flex flex-col mb-4 md:w-1/2">
-                            <label for="weekly-study-hours" class="font-bold">Weekly study hours</label>
+                            <label for="weekly-study-hours" class="font-bold">Weekly Study Hours</label>
                             <input type="number" disabled id="weekly-study-hours"
                                 class="w-full border border-sky-700 py-1 px-2 rounded transition-all ease-in-out font-medium focus:outline-sky-600">
+                            <span id="error-studying-max-hours" class="text-sm italic text-gray-500">How many
+                                hours you'll be studying weekly</span>
                         </div>
 
                         <div class="flex flex-col mb-4 md:w-1/2">
                             <label for="multiplier" class="font-bold">Multiplier</label>
                             <input type="number" disabled id="multiplier"
                                 class="w-full border border-sky-700 py-1 px-2 rounded transition-all ease-in-out font-medium focus:outline-sky-600">
+                            <span id="error-studying-max-hours" class="text-sm italic text-gray-500">Weekly Hours / Sum
+                                of Subject Weights</span>
                         </div>
                     </div>
                 </form>
@@ -139,8 +144,8 @@
             <!-- Study Cycle show (only if one exists) -->
             <section id="my-study-cycle-container" class="mt-8 max-w-screen-sm mx-auto">
                 <a href="study-cycle.html" id="my-study-cycle-link"
-                    class="hidden text-sky-50 bg-sky-500 p-2 rounded text-2xl font-bold shadow-md transition-all ease-in-out hover:bg-sky-600">Meu
-                    Ciclo de Estudo</a>
+                    class="hidden text-sky-50 bg-sky-500 p-2 rounded text-2xl font-bold shadow-md transition-all ease-in-out hover:bg-sky-600">Access
+                    My Study Cycle</a>
                 <span id="no-study-cycle-msg" class="text-lg font-semibold italic">You have no <span
                         class="text-sky-500">Study Cycle</span>
                     created yet.</span>

@@ -162,6 +162,16 @@ export class StudyCycle {
     openDeleteStudyCycleModal.classList.toggle("hidden");
   }
 
+  static toggleShowMessageNoStudyCycleOrTheStudyCycleInfo() {
+    const noStudyCycleContainer = document.getElementById(
+      "no-study-cycle-container"
+    );
+    const studyCycleInfoContainer = document.getElementById("study-cycle-info");
+
+    noStudyCycleContainer.classList.toggle("hidden");
+    studyCycleInfoContainer.classList.toggle("hidden");
+  }
+
   static setWeeklyStudyHours() {
     const weeklyStudyHoursInput = document.getElementById("weekly-study-hours");
     const userDiaryStudyingHoursInput =
@@ -303,25 +313,23 @@ export class StudyCycle {
           // Obtém a lista de assuntos da data atual
           const dataList = studyCycleObj[date];
 
-          // Cria um elemento div para envolver os dados da data atual
-          const studyCycleData = document.getElementById("study-cycle-data");
-
           // Cria um elemento h2 para exibir a data atual
           const dateTitle = document.getElementById("study-cycle-date");
           dateTitle.textContent = date;
 
           // Cria um elemento span para exibir o número de semanas passadas
           const weeksPassed = document.getElementById("weeks-passed");
-          weeksPassed.textContent = `Semanas Passadas: ${studyCycleObj.weeksPassed}`;
+          weeksPassed.textContent = `Passed Weeks: ${studyCycleObj.weeksPassed}`;
 
           // Cria um elemento span para exibir o número de semanas em um ciclo completo
           const weeksFullCycle = document.getElementById("weeks-full-cycle");
-          weeksFullCycle.textContent = `Ciclo Completo de Semanas: ${studyCycleObj.weeksFullCycle}`;
+          weeksFullCycle.textContent = `Completed Cycles: ${studyCycleObj.weeksFullCycle}`;
 
           // Cria um elemento span para exibir a data de início
           const startedAtDateSpan = document.getElementById("started-at-date");
-          startedAtDateSpan.textContent = `Iniciado Em: ${studyCycleObj.startedAt}`;
+          startedAtDateSpan.textContent = `Started At: ${studyCycleObj.startedAt}`;
 
+          // Container com todos os assuntos
           const subjectsContainer = document.getElementById("subjects");
 
           // Itera sobre cada assunto na lista de assuntos da data atual
@@ -341,6 +349,7 @@ export class StudyCycle {
             subjectName.classList.add("font-bold");
             subjectName.textContent = subject.name;
 
+            // Container com todas as checkboxes input
             const checkboxContainer = document.createElement("div");
             checkboxContainer.id = `subject-${subject.id}-checkboxes-container`;
             checkboxContainer.classList.add("flex", "flex-row", "gap-2");
@@ -351,10 +360,12 @@ export class StudyCycle {
             subjectStatus.id = `subject-${subject.id}-status`;
             subjectStatus.classList.add("text-xs", "font-semibold");
 
+            // Ícone do status
             const statusIcon = document.createElement("div");
             statusIcon.id = `subject-${subject.id}-status-icon`;
             statusIcon.classList.add("size-2", "rounded-full");
 
+            // Container que tem o Ícone e o status
             const statusAndIconContainer = document.createElement("div");
             statusAndIconContainer.classList.add(
               "flex",
@@ -394,7 +405,6 @@ export class StudyCycle {
 
             subjectDiv.appendChild(labelAndStatusContainer);
 
-            // Cria um elemento br para adicionar espaçamento
             subjectsContainer.appendChild(subjectDiv);
             studyCycleInfoContainer.appendChild(subjectsContainer);
 
@@ -417,6 +427,8 @@ export class StudyCycle {
       StudyCycle.subjectSaveCheckedCheckboxes();
 
       StudyCycle.loadCheckedCheckboxes();
+    } else {
+      StudyCycle.toggleShowMessageNoStudyCycleOrTheStudyCycleInfo();
     }
   }
 

@@ -23,7 +23,12 @@
                         <a href="index.html"
                             class="max-w-max text-sky-50 bg-sky-500 p-2 rounded text-md font-bold shadow-md transition-all ease-in-out hover:bg-sky-600 disabled:bg-sky-300">Back
                             to home</a>
-                        <h1 class="text-3xl font-bold pb-8">My Study Cycle</h1>
+
+                        <div class="flex flex-row gap-2 items-center pb-8">
+                            <img src="app/imgs/logo-only-no-bg.png" class="size-12" alt="imagem">
+                            <h1 class="text-3xl font-bold">My <span class="text-sky-500">Study Cycle</span></h1>
+                        </div>
+
                     </div>
 
                     <!-- Botões -->
@@ -45,6 +50,14 @@
                         <span id="weeks-full-cycle" class="italic text-gray-500 font-semibold text-sm"></span>
                         <span id="started-at-date" class="italic text-gray-500 font-semibold text-sm"></span>
                     </div>
+                    <!-- Mensagem caso o usuário tenha concluído todos as materias -->
+                    <span id="completed-all-subjects-msg" class="hidden font-semibold">🎊
+                        <span class="text-sky-500 font-bold">Congratulations!</span> You've
+                        completed
+                        this
+                        cycle. Wait
+                        'till next week to
+                        restart!</span>
                 </div>
 
                 <!-- Subjects RIGHT SIDE -->
@@ -59,22 +72,53 @@
                 </div>
             </div>
 
+            <!-- Error -->
+            <div id="no-study-cycle-container" class="flex flex-col items-center justify-center hidden">
+                <h1 class="font-bold text-7xl pb-8">404</h1>
+                <div class="flex flex-col gap-8">
+                    <a href="index.html"
+                        class="max-w-max mx-auto text-sky-50 bg-sky-500 p-2 rounded text-md font-bold shadow-md transition-all ease-in-out hover:bg-sky-600 disabled:bg-sky-300">Back
+                        to home</a>
+
+                    <div class="flex flex-row gap-2 items-center pb-8">
+                        <img src="app/imgs/logo-only-no-bg.png" class="size-12" alt="imagem">
+                        <h1 class="text-3xl font-bold">My <span class="text-sky-500">Study</span> Cycle</h1>
+                    </div>
+
+                </div>
+                <!-- Mensagem caso o usuário não tenha um study cycle -->
+                <span id="no-study-cycle-msg" class="font-semibold text-xl">You <span class="text-red-500">don't</span>
+                    have a study cycle created
+                    yet.</span>
+            </div>
+
             <!-- Modal de confirmação de deleção de study cycle -->
-            <dialog id="confirm-study-cycle-delete-modal">
+            <!-- <dialog id="confirm-study-cycle-delete-modal">
                 <h1>Are you sure?!</h1>
                 <p>You sure you want to DELETE this study cycle?</p>
                 <button type="button" id="confirm-delete-study-cycle">Delete</button>
                 <button id="close"
                     onclick="document.getElementById('confirm-study-cycle-delete-modal').close()">Close</button>
+            </dialog> -->
+
+            <dialog id="confirm-study-cycle-delete-modal"
+                class="border border-sky-500 rounded py-8 md:py-10 bg-gray-100">
+                <div class="flex flex-col gap-4 items-center">
+                    <div class="size-12 bg-sky-500 rounded-full"></div>
+                    <h1 class="text-3xl font-bold">Are you sure?!</h1>
+                    <div class="w-2/3 text-center">
+                        <p id="confirm-study-cycle-delete-modal-message" class="font-semibold">You sure you want to
+                            <span class="text-red-600 font-bold">DELETE</span> this study cycle?
+                        </p>
+                    </div>
+                    <div class="flex flex-row gap-8">
+                        <button type="button" id="confirm-delete-study-cycle"
+                            class="text-sky-50 bg-sky-500 p-2 rounded text-md font-bold shadow-md w-1/2 transition-all ease-in-out hover:bg-sky-600">Delete</button>
+                        <button id="close" onclick="document.getElementById('confirm-study-cycle-delete-modal').close()"
+                            class="text-sky-50 bg-red-500 p-2 rounded text-md font-bold shadow-md w-1/2 transition-all ease-in-out hover:bg-red-600">Close</button>
+                    </div>
+                </div>
             </dialog>
-
-            <!-- Mensagem caso o usuário não tenha um study cycle -->
-            <span id="no-study-cycle-msg">You don't have a study cycle created yet.</span>
-
-            <!-- Mensagem caso o usuário tenha concluído todos as materias -->
-            <span id="completed-all-subjects-msg" class="hidden">Congratulations! You've completed this cycle. Wait
-                'till next week to
-                restart!</span>
         </main>
 
 

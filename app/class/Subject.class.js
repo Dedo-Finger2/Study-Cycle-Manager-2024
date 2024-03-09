@@ -241,7 +241,8 @@ export class Subject {
       for (let removeSubjectBtn of allRemoveSubjectBtn) {
         removeSubjectBtn.addEventListener("click", (event) => {
           event.preventDefault();
-          event.target.parentNode.remove();
+          const referenceNode = event.target.parentNode;
+          referenceNode.parentNode.remove();
         });
       }
     }
