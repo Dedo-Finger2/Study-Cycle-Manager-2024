@@ -24,6 +24,24 @@ export class Security {
     return false;
   }
 
+  static checkConfigBeforeSaving(studyCycleConfigObj) {
+    // Se houver um horário diário de estudo e um multiplicador...
+    if (studyCycleConfigObj.userMaxHours !== 0) {
+      if (studyCycleConfigObj.multiplier !== 0) {
+        // Salva as configurações no LocalStorage
+        return true;
+      } else {
+        modalErrorMessage = "Create a subject first!";
+        errorModal.showModal();
+        return false;
+      }
+    } else {
+      modalErrorMessage = "Please enter a valid number of hours first!";
+      errorModal.showModal();
+      return false;
+    }
+  }
+
   static customSuccessModal(message) {
     Security.successModalMessage.textContent = message;
     Security.successModal.showModal();

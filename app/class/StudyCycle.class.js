@@ -4,6 +4,7 @@ import { Subject } from "./Subject.class.js";
 export class StudyCycle {
   static totalWeights = 0;
   static globalId = 1;
+  static todaysFormattedDate = new Date().toLocaleDateString("pt-BR");
 
   static init() {
     if (Security.checkUserDiaryStudyingHoursInput()) return;
@@ -56,7 +57,7 @@ export class StudyCycle {
     StudyCycle.globalId = 0;
 
     // Salva as configurações no LocalStorage
-    // saveStudyCycleConfig();
+    StudyCycle.createStudyCycleConfig();
 
     StudyCycle.toggleBetweenMessageOrLinkToMyStudyCycle();
 
@@ -65,9 +66,6 @@ export class StudyCycle {
   }
 
   static createObj() {
-    const nameInputs = document.querySelectorAll('input[id*="name"]');
-    const weightInputs = document.querySelectorAll('input[id*="weight"]');
-
     // Cria um objeto com as informações do novo ciclo de estudo
     const studyCycleObj = {
       [StudyCycle.todaysFormattedDate]: [], // É aqui que ficam as matérias, a chave é a data de hoje
@@ -76,6 +74,17 @@ export class StudyCycle {
       weeksFullCycle: 0, // Indica quantas semanas o ciclo de estudo ficou completo
       startedAt: StudyCycle.todaysFormattedDate, // Data em que o ciclo de estudo foi iniciado
     };
+
+    StudyCycle.addSubjects(studyCycleObj);
+
+    StudyCycle.saveStudyCycle(studyCycleObj);
+
+    console.log(studyCycleObj);
+  }
+
+  static addSubjects(studyCycleObj) {
+    const nameInputs = document.querySelectorAll('input[id*="name"]');
+    const weightInputs = document.querySelectorAll('input[id*="weight"]');
 
     Subject.resetGlobalId();
 
@@ -87,8 +96,6 @@ export class StudyCycle {
       );
       studyCycleObj[StudyCycle.todaysFormattedDate].push(newSubject.info);
     });
-
-    console.log(studyCycleObj);
   }
 
   static toggleStudyCycleCreationContainer() {
@@ -161,20 +168,44 @@ export class StudyCycle {
     noStudyCycleMsg.classList.toggle("hidden");
   }
 
-  get todaysFormattedDate() {
-    const currentDate = new Date();
-    const formattedDate = currentDate.toLocaleDateString();
+  static createStudyCycleConfig() {
+    const userDiaryStudyingHoursInput =
+      document.getElementById("studying-max-hours");
+    const weeklyStudyHoursInput = document.getElementById("weekly-study-hours");
+    const multiplierInput = document.getElementById("multiplier");
 
-    return formattedDate;
+    // Cria um objeto contendo os dados de configuração do ciclo de estudo
+    const studyCycleUserConfig = {
+      userMaxHours: Number(userDiaryStudyingHoursInput.value),
+      weeklyStudyHours: Number(weeklyStudyHoursInput.value),
+      multiplier: Number(multiplierInput.value),
+    };
+
+    StudyCycle.saveConfig(studyCycleUserConfig);
   }
 
   download() {}
 
   delete() {}
 
-  saveStudyCycle() {}
+  static saveStudyCycle(studyCycleObj) {
+    localStorage.setItem("myStudyCycle", JSON.stringify(studyCycleObj));
 
-  saveConfig() {}
+    console.log("Study cycle saved");
+  }
+
+  static saveConfig(studyCycleConfigObj) {
+    if (Security.checkConfigBeforeSaving(studyCycleConfigObj)) {
+      localStorage.setItem(
+        "myStudyCycleUserConfig",
+        JSON.stringify(studyCycleConfigObj)
+      );
+
+      console.log("Study cycle config saved", studyCycleConfigObj);
+    } else {
+      return;
+    }
+  }
 
   get info() {
     return {
