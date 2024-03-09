@@ -463,9 +463,13 @@ export class StudyCycle {
 
     // Obtém a data atual
     const currentDate = new Date();
+    const currentDateFormatted = currentDate.toLocaleDateString();
 
     // Verifica se é um domingo (dia de semana 0)
-    if (currentDate.getDay() === 0) {
+    if (
+      currentDate.getDay() === 0 &&
+      StudyCycle.lastTimeStudyCycleReset !== currentDateFormatted
+    ) {
       // Zera as horas agendadas para cada matéria
       subjects.forEach((subject) => {
         subject.currentWeekHours = 0;
@@ -487,7 +491,13 @@ export class StudyCycle {
 
       // Salva o objeto no LocalStorage
       StudyCycle.saveStudyCycle(studyCycleObj);
+
+      localStorage.setItem("lastTimeStudyCycleResetAt", currentDateFormatted);
     }
+  }
+
+  static get lastTimeStudyCycleReset() {
+    return localStorage.getItem("lastTimeStudyCycleResetAt");
   }
 
   static saveStudyCycle(studyCycleObj) {
