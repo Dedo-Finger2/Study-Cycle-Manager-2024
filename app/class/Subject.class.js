@@ -23,7 +23,9 @@ export class Subject {
     Subject.globalId++;
   }
 
-  addNewSubject(subjectsContainer) {
+  addNewSubject() {
+    const subjectsContainer = document.getElementById("subjects");
+    
     subjectsContainer.appendChild(this.newSubjectContainer);
   }
 
