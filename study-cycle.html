@@ -13,18 +13,50 @@
 
     <body class="bg-slate-50 text-slate-950">
         <!-- Main -->
-        <main id="main-container">
-            <!-- Título -->
-            <a href="index.html">Back to home</a>
-            <h1>My Study Cycle</h1>
+        <main id="main-container" class="py-8 px-4 md:py-20 md:px-36">
+            <!-- Top content -->
+            <div id="study-cycle-info" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- info LEFT SIDE -->
+                <div class="mb-8">
+                    <!-- Título -->
+                    <div class="flex flex-col gap-8">
+                        <a href="index.html"
+                            class="max-w-max text-sky-50 bg-sky-500 p-2 rounded text-md font-bold shadow-md transition-all ease-in-out hover:bg-sky-600 disabled:bg-sky-300">Back
+                            to home</a>
+                        <h1 class="text-3xl font-bold pb-8">My Study Cycle</h1>
+                    </div>
 
-            <!-- Botões de controle do topo -->
-            <div id="study-cycle-info">
-                <button type="button" class="hidden"
-                    onclick="document.getElementById('confirm-study-cycle-delete-modal').showModal()"
-                    id="open-delete-study-cycle-modal">Delete
-                    Study Cycle</button>
-                <button type="button" class="hidden" id="export-as-csv-btn">Export as JSON</button>
+                    <!-- Botões -->
+                    <div class="flex flex-row gap-4 mb-4">
+                        <button type="button"
+                            class="hidden text-sky-50 bg-sky-500 p-2 rounded text-sm font-bold shadow-md transition-all ease-in-out hover:bg-sky-600 disabled:bg-sky-300"
+                            onclick="document.getElementById('confirm-study-cycle-delete-modal').showModal()"
+                            id="open-delete-study-cycle-modal">Delete
+                            Study Cycle</button>
+                        <button type="button"
+                            class="hidden text-sky-50 bg-sky-500 p-2 rounded text-sm font-bold shadow-md transition-all ease-in-out hover:bg-sky-600 disabled:bg-sky-300"
+                            id="export-as-csv-btn">Export as JSON</button>
+                    </div>
+
+                    <!-- Study Info -->
+                    <div id="study-cycle-info" class="flex flex-col gap-1 mb-8">
+                        <h2 id="study-cycle-date" class="text-2xl font-semibold"></h2>
+                        <span id="weeks-passed" class="italic text-gray-500 font-semibold text-sm"></span>
+                        <span id="weeks-full-cycle" class="italic text-gray-500 font-semibold text-sm"></span>
+                        <span id="started-at-date" class="italic text-gray-500 font-semibold text-sm"></span>
+                    </div>
+                </div>
+
+                <!-- Subjects RIGHT SIDE -->
+                <div id="subjects" class="flex flex-col gap-8">
+                    <div class="flex flex-col gap-2">
+                        <h3 class=" text-3xl font-bold">Subjects</h3>
+                        <hr>
+                        <p class=" text-gray-400 text-sm italic font-semibold">Each checkbox
+                            means 1
+                            hour!</p>
+                    </div>
+                </div>
             </div>
 
             <!-- Modal de confirmação de deleção de study cycle -->
@@ -44,6 +76,7 @@
                 'till next week to
                 restart!</span>
         </main>
+
 
         <!-- Footer -->
         <footer></footer>

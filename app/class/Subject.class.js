@@ -198,12 +198,38 @@ export class Subject {
       `subject-${subject.id}-status`
     );
 
+    const subjectStatus = document.getElementById(
+      `subject-${subject.id}-status`
+    );
+    const statusIcon = document.getElementById(
+      `subject-${subject.id}-status-icon`
+    );
+    const statusAndIconContainer = document.getElementById(
+      `subject-${subject.id}-status-and-icon-container`
+    );
+
     if (subject.currentWeekHours >= subject.maxHoursAWeek) {
-      subject.status = "Done!";
+      subject.status = "Done";
       subjectStatusSpan.textContent = subject.status;
+
+      statusIcon.classList.remove("bg-red-500");
+      subjectStatus.classList.remove("text-red-500");
+      statusAndIconContainer.classList.remove("border-red-500");
+
+      statusIcon.classList.add("bg-green-500");
+      subjectStatus.classList.add("text-green-500");
+      statusAndIconContainer.classList.add("border-green-500");
     } else {
       subject.status = "Can Study";
       subjectStatusSpan.textContent = subject.status;
+
+      statusIcon.classList.remove("bg-green-500");
+      subjectStatus.classList.remove("text-green-500");
+      statusAndIconContainer.classList.remove("border-green-500");
+
+      statusIcon.classList.add("bg-red-500");
+      subjectStatus.classList.add("text-red-500");
+      statusAndIconContainer.classList.add("border-red-500");
     }
   }
 

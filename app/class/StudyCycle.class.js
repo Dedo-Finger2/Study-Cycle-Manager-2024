@@ -44,7 +44,7 @@ export class StudyCycle {
 
     // Seta o valor do input de multiplicador para o multiplicador encontrado
     StudyCycle.setMultiplier();
-    
+
     // Seta o valor do input de horas semanais para as horas semanais encontradas
     StudyCycle.setWeeklyStudyHours();
 
@@ -304,56 +304,99 @@ export class StudyCycle {
           const dataList = studyCycleObj[date];
 
           // Cria um elemento div para envolver os dados da data atual
-          const studyCycleData = document.createElement("div");
-          studyCycleData.id = "study-cycle-data";
+          const studyCycleData = document.getElementById("study-cycle-data");
 
           // Cria um elemento h2 para exibir a data atual
-          const dateTitle = document.createElement("h2");
+          const dateTitle = document.getElementById("study-cycle-date");
           dateTitle.textContent = date;
 
           // Cria um elemento span para exibir o número de semanas passadas
-          const weeksPassed = document.createElement("span");
-          weeksPassed.id = "weeks-passed";
+          const weeksPassed = document.getElementById("weeks-passed");
           weeksPassed.textContent = `Semanas Passadas: ${studyCycleObj.weeksPassed}`;
 
           // Cria um elemento span para exibir o número de semanas em um ciclo completo
-          const weeksFullCycle = document.createElement("span");
-          weeksFullCycle.id = "weeks-full-cycle";
+          const weeksFullCycle = document.getElementById("weeks-full-cycle");
           weeksFullCycle.textContent = `Ciclo Completo de Semanas: ${studyCycleObj.weeksFullCycle}`;
 
           // Cria um elemento span para exibir a data de início
-          const startedAtDateSpan = document.createElement("span");
-          startedAtDateSpan.id = "started-at-date";
+          const startedAtDateSpan = document.getElementById("started-at-date");
           startedAtDateSpan.textContent = `Iniciado Em: ${studyCycleObj.startedAt}`;
 
-          // Cria elementos br para adicionar espaçamento
-          const breakBetweenWeeksSpans = document.createElement("br");
-          const breakBetweenWeeksSpanAndStartedDate =
-            document.createElement("br");
-          const breakBetweenWeeksAndSubjects = document.createElement("br");
-
-          // Adiciona os elementos ao elemento studyCycleData
-          studyCycleData.appendChild(dateTitle);
-          studyCycleData.appendChild(startedAtDateSpan);
-          studyCycleData.appendChild(breakBetweenWeeksSpanAndStartedDate);
-          studyCycleData.appendChild(weeksPassed);
-          studyCycleData.appendChild(breakBetweenWeeksSpans);
-          studyCycleData.appendChild(weeksFullCycle);
-
-          // Adiciona o elemento studyCycleData ao container de informações de estudos
-          studyCycleInfoContainer.appendChild(studyCycleData);
-          studyCycleInfoContainer.appendChild(breakBetweenWeeksAndSubjects);
+          const subjectsContainer = document.getElementById("subjects");
 
           // Itera sobre cada assunto na lista de assuntos da data atual
           dataList.forEach((subject) => {
             // Cria um elemento div para envolver cada assunto
             const subjectDiv = document.createElement("div");
+            subjectDiv.id = `subject-${subject.id}-container`;
+            subjectDiv.classList.add("flex", "flex-col", "gap-2");
+
+            const labelAndStatusContainer = document.createElement("div");
+            labelAndStatusContainer.id = `subject-${subject.id}-label-and-status-container`;
+            labelAndStatusContainer.classList.add("flex", "flex-row", "gap-2");
 
             // Cria um elemento span para exibir o nome do assunto
             const subjectName = document.createElement("span");
+            subjectName.id = `subject-${subject.id}-name`;
+            subjectName.classList.add("font-bold");
             subjectName.textContent = subject.name;
 
-            subjectDiv.appendChild(subjectName);
+            const checkboxContainer = document.createElement("div");
+            checkboxContainer.id = `subject-${subject.id}-checkboxes-container`;
+            checkboxContainer.classList.add("flex", "flex-row", "gap-2");
+
+            // Cria um elemento span para exibir o status do assunto
+            const subjectStatus = document.createElement("span");
+            subjectStatus.textContent = subject.status;
+            subjectStatus.id = `subject-${subject.id}-status`;
+            subjectStatus.classList.add("text-xs", "font-semibold");
+
+            const statusIcon = document.createElement("div");
+            statusIcon.id = `subject-${subject.id}-status-icon`;
+            statusIcon.classList.add("size-2", "rounded-full");
+
+            const statusAndIconContainer = document.createElement("div");
+            statusAndIconContainer.classList.add(
+              "flex",
+              "flex-row",
+              "gap-2",
+              "border",
+              "rounded-full",
+              "py-[.5px]",
+              "px-2",
+              "items-center"
+            );
+            statusAndIconContainer.id = `subject-${subject.id}-status-and-icon-container`;
+
+            if (subject.status === "Done") {
+              statusIcon.classList.remove("bg-red-500");
+              subjectStatus.classList.remove("text-red-500");
+              statusAndIconContainer.classList.remove("border-red-500");
+
+              statusIcon.classList.add("bg-green-500");
+              subjectStatus.classList.add("text-green-500");
+              statusAndIconContainer.classList.add("border-green-500");
+            } else {
+              statusIcon.classList.remove("bg-green-500");
+              subjectStatus.classList.remove("text-green-500");
+              statusAndIconContainer.classList.remove("border-green-500");
+
+              statusIcon.classList.add("bg-red-500");
+              subjectStatus.classList.add("text-red-500");
+              statusAndIconContainer.classList.add("border-red-500");
+            }
+
+            statusAndIconContainer.appendChild(statusIcon);
+            statusAndIconContainer.appendChild(subjectStatus);
+
+            labelAndStatusContainer.appendChild(subjectName);
+            labelAndStatusContainer.appendChild(statusAndIconContainer);
+
+            subjectDiv.appendChild(labelAndStatusContainer);
+
+            // Cria um elemento br para adicionar espaçamento
+            subjectsContainer.appendChild(subjectDiv);
+            studyCycleInfoContainer.appendChild(subjectsContainer);
 
             // Itera sobre cada hora do assunto
             for (let index = 1; index <= subject.maxHoursAWeek; index++) {
@@ -364,19 +407,9 @@ export class StudyCycle {
               checkbox.id = `subject-${subject.id}`;
               checkbox.value = 1;
 
-              subjectDiv.appendChild(checkbox);
+              checkboxContainer.appendChild(checkbox);
+              subjectDiv.appendChild(checkboxContainer);
             }
-
-            // Cria um elemento span para exibir o status do assunto
-            const subjectStatus = document.createElement("span");
-            subjectStatus.textContent = subject.status;
-            subjectStatus.id = `subject-${subject.id}-status`;
-            subjectDiv.appendChild(subjectStatus);
-
-            // Cria um elemento br para adicionar espaçamento
-            const br = document.createElement("br");
-            studyCycleInfoContainer.appendChild(subjectDiv);
-            studyCycleInfoContainer.appendChild(br);
           });
         }
       }
