@@ -184,9 +184,58 @@ export class StudyCycle {
     StudyCycle.saveConfig(studyCycleUserConfig);
   }
 
-  download() {}
+  static download() {
+    // Obtém o objeto do ciclo de estudos do LocalStorage
+    const studyCycleObj = JSON.parse(localStorage.getItem("myStudyCycle"));
+    // Obtém a configuração do ciclo de estudos do LocalStorage
+    const studyCycleConfig = JSON.parse(
+      localStorage.getItem("myStudyCycleUserConfig")
+    );
 
-  delete() {}
+    // Obtém a data atual como string no formato local
+    const currentDate = new Date().toLocaleDateString();
+
+    // Cria um novo objeto combinando o ciclo de estudos e a configuração do usuário,
+    // utilizando a sintaxe spread para mesclar as propriedades
+    const exportObj = {
+      ...studyCycleObj,
+      ...studyCycleConfig,
+    };
+
+    // Cria um objeto Blob com o conteúdo do objeto JSON exportado, com a formatação de indentação de 2 espaços
+    const exportFile = new Blob([JSON.stringify(exportObj, null, 2)], {
+      type: "application/json",
+    });
+
+    // Chama a função saveAs do pacote file-saver para salvar o arquivo JSON
+    // O nome do arquivo será "myStudyCycle-dataAtual.json", onde dataAtual é a data atual no formato local
+    saveAs(exportFile, `myStudyCycle-${currentDate}.json`);
+  }
+
+  static delete() {
+    const confirmDeleteModal = document.getElementById(
+      "confirm-study-cycle-delete-modal"
+    );
+
+    // Remove o ciclo de estudos do LocalStorage
+    localStorage.removeItem("myStudyCycle");
+
+    // Remove o config do usuário do LocalStorage
+    localStorage.removeItem("myStudyCycleUserConfig");
+
+    // Remove todas as matérias que foram marcadas do LocalStorage
+    for (let key in localStorage) {
+      if (key.startsWith("subject-")) {
+        localStorage.removeItem(key);
+      }
+    }
+
+    // Fecha o modal
+    confirmDeleteModal.close();
+
+    // Recarrega a página
+    window.location.reload();
+  }
 
   static saveStudyCycle(studyCycleObj) {
     localStorage.setItem("myStudyCycle", JSON.stringify(studyCycleObj));

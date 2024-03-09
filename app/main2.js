@@ -1,3 +1,6 @@
+import { StudyCycle } from "./class/StudyCycle.class.js";
+import { Subject } from "./class/Subject.class.js";
+
 // [ BOTÕES ] \\
 
 // Botão de confirmação de deleção do ciclo de estudos
@@ -13,13 +16,6 @@ const openDeleteStudyCycleModal = document.getElementById(
 // Botão que exporta o ciclo de estudos para um JSON
 const exportAsCsvBtn = document.getElementById("export-as-csv-btn");
 
-// [ MODAIS ] \\
-
-// Modal de confirmação de deleção de ciclo de estudos
-const confirmDeleteModal = document.getElementById(
-  "confirm-study-cycle-delete-modal"
-);
-
 // [ GERAL ] \\
 
 // Mensagem caso não haja ciclo de estudos
@@ -31,29 +27,10 @@ const completedCycleMsg = document.getElementById("completed-all-subjects-msg");
 // [ EVENTOS ] \\
 
 // Evento que baixa o JSON do ciclo de estudos
-exportAsCsvBtn.addEventListener("click", exportStudyCycleJson);
+exportAsCsvBtn.addEventListener("click", StudyCycle.download);
 
 // Evento que confirma a deleção do ciclo de estudos
-confirmDeleteStudyCycle.addEventListener("click", () => {
-  // Remove o ciclo de estudos do LocalStorage
-  localStorage.removeItem("myStudyCycle");
-
-  // Remove o config do usuário do LocalStorage
-  localStorage.removeItem("myStudyCycleUserConfig");
-
-  // Remove todas as matérias que foram marcadas do LocalStorage
-  for (let key in localStorage) {
-    if (key.startsWith("subject-")) {
-      localStorage.removeItem(key);
-    }
-  }
-
-  // Fecha o modal
-  confirmDeleteModal.close();
-
-  // Recarrega a página
-  window.location.reload();
-});
+confirmDeleteStudyCycle.addEventListener("click", StudyCycle.delete);
 
 // Quando a página carregar...
 document.addEventListener("DOMContentLoaded", () => {
@@ -381,35 +358,4 @@ function resetAllSubjectsCurrentHours() {
     // Salva o objeto no LocalStorage
     localStorage.setItem("myStudyCycle", JSON.stringify(studyCycleObj));
   }
-}
-
-/**
- * Exporta os dados do ciclo de estudos para um arquivo JSON.
- */
-function exportStudyCycleJson() {
-  // Obtém o objeto do ciclo de estudos do LocalStorage
-  const studyCycleObj = JSON.parse(localStorage.getItem("myStudyCycle"));
-  // Obtém a configuração do ciclo de estudos do LocalStorage
-  const studyCycleConfig = JSON.parse(
-    localStorage.getItem("myStudyCycleUserConfig")
-  );
-
-  // Obtém a data atual como string no formato local
-  const currentDate = new Date().toLocaleDateString();
-
-  // Cria um novo objeto combinando o ciclo de estudos e a configuração do usuário,
-  // utilizando a sintaxe spread para mesclar as propriedades
-  const exportObj = {
-    ...studyCycleObj,
-    ...studyCycleConfig,
-  };
-
-  // Cria um objeto Blob com o conteúdo do objeto JSON exportado, com a formatação de indentação de 2 espaços
-  const exportFile = new Blob([JSON.stringify(exportObj, null, 2)], {
-    type: "application/json",
-  });
-
-  // Chama a função saveAs do pacote file-saver para salvar o arquivo JSON
-  // O nome do arquivo será "myStudyCycle-dataAtual.json", onde dataAtual é a data atual no formato local
-  saveAs(exportFile, `myStudyCycle-${currentDate}.json`);
 }
