@@ -30,11 +30,11 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/github_username/repo_name">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+  <a href="https://github.com/Dedo-Finger2/Study-Cycle-Manager-2024">
+    <img src="app/imgs/logo-only-no-bg-smooth.png" alt="Logo" width="250" height="250">
   </a>
 
-<h3 align="center">project_title</h3>
+<h1 align="center">My Study Cycle</h1>
 
   <p align="center">
     project_description
