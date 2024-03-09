@@ -185,9 +185,9 @@ export class StudyCycle {
     const userDiaryStudyingHoursInput =
       document.getElementById("studying-max-hours");
 
-    const userDiaryStudyingHours = Number(userDiaryStudyingHoursInput.value);
+    const userWeeklyStudyingHours = Number(userDiaryStudyingHoursInput.value) * 7;
     const multiplierValue = Number(
-      (userDiaryStudyingHours / StudyCycle.totalWeights).toFixed(2)
+      (userWeeklyStudyingHours / StudyCycle.totalWeights).toFixed(2)
     );
 
     multiplierInput.value = multiplierValue;
