@@ -9,12 +9,12 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-slate-50 text-slate-950 py-20 px-36">
+<body class="bg-slate-50 text-slate-950 py-8 px-4 md:py-20 md:px-36">
     <!-- Main -->
-    <main id="main-container">
+    <main id="main-container" class="max-w-screen-sm mx-auto">
 
         <!-- Modal de erros -->
-        <dialog id="error-modal" class="border border-red-500 rounded py-10 bg-gray-100">
+        <dialog id="error-modal" class="border border-red-500 rounded py-8 md:py-10 bg-gray-100">
             <div class="flex flex-col gap-4 items-center">
                 <div class="size-12 bg-red-500 rounded-full"></div>
                 <h1 class="text-3xl font-bold">ERROR!</h1>
@@ -27,7 +27,7 @@
         </dialog>
 
         <!-- Modal de sucesso -->
-        <dialog id="success-modal" class="border border-green-500 rounded py-10 bg-gray-100">
+        <dialog id="success-modal" class="border border-green-500 rounded py-8 md:py-10 bg-gray-100">
             <div class="flex flex-col gap-4 items-center"></div>
             <div class="size-12 bg-green-500 rounded-full"></div>
             <h1 class="text-3xl font-bold">SUCCESS!</h1>
@@ -52,7 +52,6 @@
                 </p>
             </div>
 
-
             <!-- Study Cycle create btn -->
             <div id="buttons-control" class="flex justify-center pt-14 pb-8">
                 <button id="init-study-cycle-creation-btn"
@@ -63,44 +62,39 @@
             </div>
 
             <!-- Study Cycle config -->
-            <section id="config-study-cycle-container">
+            <section id="config-study-cycle-container" class="max-w-screen-sm mx-auto">
                 <br>
                 <!-- Config Form -->
                 <form id="config-study-cycle-form" class="flex flex-col items-center">
-
-                    <div class="flex flex-col gap-2 w-8/12">
+                    <div class="w-full md:w-8/12 mb-4">
                         <label for="studying-max-hours" class="font-bold">Max hours of studying</label>
                         <input type="number" min="1" max="24" id="studying-max-hours" required
                             placeholder="Horas Maximas"
-                            class="border border-sky-700 py-1 px-2 rounded transition-all ease-in-out font-medium focus:outline-sky-600">
+                            class="w-full border border-sky-700 py-1 px-2 rounded transition-all ease-in-out font-medium focus:outline-sky-600">
                         <span id="error-studying-max-hours" class="text-sm italic text-gray-500">Insert the amount
-                            of
-                            hours you want to study daily</span>
+                            of hours you want to study daily</span>
                     </div>
 
-
-                    <br>
-
-                    <div class="flex flex-row gap-10">
-                        <div class="flex flex-col gap-2">
+                    <div class="w-full flex flex-col md:flex-row gap-4">
+                        <div class="flex flex-col mb-4 md:w-1/2">
                             <label for="weekly-study-hours" class="font-bold">Weekly study hours</label>
                             <input type="number" disabled id="weekly-study-hours"
-                                class="border border-sky-700 py-1 px-2 rounded transition-all ease-in-out font-medium focus:outline-sky-600">
+                                class="w-full border border-sky-700 py-1 px-2 rounded transition-all ease-in-out font-medium focus:outline-sky-600">
                         </div>
 
-                        <div class="flex flex-col gap-2">
+                        <div class="flex flex-col mb-4 md:w-1/2">
                             <label for="multiplier" class="font-bold">Multiplier</label>
                             <input type="number" disabled id="multiplier"
-                                class="border border-sky-700 py-1 px-2 rounded transition-all ease-in-out font-medium focus:outline-sky-600">
+                                class="w-full border border-sky-700 py-1 px-2 rounded transition-all ease-in-out font-medium focus:outline-sky-600">
                         </div>
                     </div>
-                    <br>
                 </form>
                 <br>
             </section>
 
+
             <!-- Study Cycle creation -->
-            <section id="create-study-cycle-container" class="hidden">
+            <section id="create-study-cycle-container" class="max-w-screen-sm mx-auto hidden">
                 <!-- Creating Form -->
                 <form id="create-study-cycle-form">
                     <div class="flex flex-row gap-4 items-center justify-center mb-8">
@@ -143,7 +137,7 @@
             </section>
 
             <!-- Study Cycle show (only if one exists) -->
-            <section id="my-study-cycle-container" class="mt-8">
+            <section id="my-study-cycle-container" class="mt-8 max-w-screen-sm mx-auto">
                 <a href="study-cycle.html" id="my-study-cycle-link"
                     class="hidden text-sky-50 bg-sky-500 p-2 rounded text-2xl font-bold shadow-md transition-all ease-in-out hover:bg-sky-600">Meu
                     Ciclo de Estudo</a>
