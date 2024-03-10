@@ -316,6 +316,15 @@ export class Subject {
     return Math.ceil(hours);
   }
 
+  static getById(id) {
+    const studyCycleObj = JSON.parse(localStorage.getItem("myStudyCycle"));
+    const subjects = Object.values(studyCycleObj)[0];
+
+    id = Number(id);
+
+    return subjects.find((subject) => subject.id === id);
+  }
+
   get info() {
     return {
       id: this.id,

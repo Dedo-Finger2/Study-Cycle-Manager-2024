@@ -185,7 +185,8 @@ export class StudyCycle {
     const userDiaryStudyingHoursInput =
       document.getElementById("studying-max-hours");
 
-    const userWeeklyStudyingHours = Number(userDiaryStudyingHoursInput.value) * 7;
+    const userWeeklyStudyingHours =
+      Number(userDiaryStudyingHoursInput.value) * 7;
     const multiplierValue = Number(
       (userWeeklyStudyingHours / StudyCycle.totalWeights).toFixed(2)
     );
@@ -460,6 +461,8 @@ export class StudyCycle {
   }
 
   static loadCheckedCheckboxes() {
+    const studyCycleObj = JSON.parse(localStorage.getItem("myStudyCycle"));
+
     const checkboxInputs = document.querySelectorAll('input[type="checkbox"]');
 
     // Verifica se o checkbox está marcado na inicialização da página
@@ -467,13 +470,19 @@ export class StudyCycle {
       const subjectId = checkbox.name.split("-")[1];
       const subjectHourId = checkbox.name.split("-")[2];
 
+      const subjectFound = Subject.getById(subjectId);
+
       // Se o checkbox está marcado na localStorage
       if (
         localStorage.getItem(`subject-${subjectId}-${subjectHourId}-hour`) ===
-        "checked"
+          "checked" &&
+        subjectFound?.currentWeekHours > 0
       ) {
         // Marca o checkbox
         checkbox.checked = true;
+      } else {
+        checkbox.checked = false;
+        console.log("reset de domingo");
       }
     });
   }
@@ -483,6 +492,8 @@ export class StudyCycle {
     const studyCycleObj = JSON.parse(localStorage.getItem("myStudyCycle"));
     // Obtém a lista de matérias do ciclo de estudos
     const subjects = Object.values(studyCycleObj)[0];
+
+    console.log(studyCycleObj);
 
     // Loop para percorrer as matérias
     subjects.forEach((subject) => {
@@ -524,8 +535,8 @@ export class StudyCycle {
       });
 
       // Atualiza a data do ciclo de estudos para a data atual
-      const keys = Object.keys(studyCycleObj);
-      studyCycleObj[keys[0]] = currentDate.toLocaleDateString();
+      // const keys = Object.keys(studyCycleObj);
+      // studyCycleObj[keys[0]] = currentDate.toLocaleDateString();
 
       // Incrementa o número de semanas passadas
       studyCycleObj.weeksPassed++;
@@ -541,6 +552,11 @@ export class StudyCycle {
       StudyCycle.saveStudyCycle(studyCycleObj);
 
       localStorage.setItem("lastTimeStudyCycleResetAt", currentDateFormatted);
+
+      console.log("Weekly user hours reset");
+
+      StudyCycle.loadCheckedCheckboxes();
+      StudyCycle.updateStatus();
     }
   }
 
